@@ -1,36 +1,49 @@
+// Imports from Libraries
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-import logger from 'redux-logger'
-import ReduxPromise from 'redux-promise';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import reduxPromise from 'redux-promise';
+import logger from 'redux-logger';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { createHistory as history } from 'history/createBrowserHistory';
+import { reducer as formReducer } from 'redux-form';
 
-// import App from './components/app';
-// import messagesReducer from './reducers/messages_reducer';
+// Internal imports (containers, components and reducers)
+import employeesReducer from './reducers/employees_reducer';
+import EmployeesIndex from './containers/employees_index';
+import EmployeesShow from './containers/employees_show';
+import EmployeesNew from './containers/employees_new';
 
-// const chatContainer = document.getElementById('chat_app');
-
-const initialState = {
-  // messages: [],
-  // channels: JSON.parse(chatContainer.dataset.channels).map(c => c.name)
-};
-
+// Declaring reducers that deal with each key of the Redux State
 const reducers = combineReducers({
-  // messages: messagesReducer,
-  // channels: (state = null, action) => state
+  employees: employeesReducer,
+  form: formReducer
 });
 
-const middlewares = applyMiddleware(logger, ReduxPromise);
+// Setting initialState to preload data in first HTTP request
+const initialState = {
+  //employees: JSON.parse(root.dataset.employees),
+  employees: []
+};
+
+// Middlewares and Store
+const middlewares = applyMiddleware(logger, reduxPromise);
 const store = createStore(reducers, initialState, middlewares);
 
+// Declaring main HTML element for rendering the application
+const root = document.getElementById('root');
+
+// Rendering application to rails view with element with id of root
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <Router history={history}>
       <Switch>
-        <Route path="/channels/:channel" component={App} />
+        <Route path="/" exact component={EmployeesIndex} />
+        <Route path="/employees/new" component={EmployeesNew} />
+        <Route path="/employees/:id" component={EmployeesShow} />
       </Switch>
-    </BrowserRouter>
+    </Router>
   </Provider>,
-  chatContainer
+  root
 );
