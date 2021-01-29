@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field, formValueSelector } from 'redux-form';
 import { createEmployee } from '../actions';
+import { ReduxCheckbox, Checkboxes } from 'react-form-checkbox';
 
 class EmployeesNew extends Component {
   onSubmit = (value) => {
@@ -29,97 +30,64 @@ class EmployeesNew extends Component {
     switch(clientId) {
       case '1':
         return (
-          partners.map( p => {
-            return (
-              <Field
-                  label={p}
-                  name="patners"
-                  value={p}
-                  type="checkbox"
-                  component={this.renderField}>
-              </Field>
-            );
-          })
+          <Field component={ReduxCheckbox(Checkboxes)} data={partners} name="partners" />
         );
       case '2':
         return (
-          <Field
-              label="Benefícios"
-              name="patners"
-              type="checkbox"
-              component={this.renderField}>
-          </Field>
+          <Field component={ReduxCheckbox(Checkboxes)} data={partners} name="partners" />
         );
     }
   }
 
+  renderPersonalFields = (partners) => {
+    const info = [
+                   { label: 'Nome', name: 'name', type: 'text'},
+                   { label: 'CPF', name: 'cpf',  type: 'text'},
+                   { label: 'E-mail', name: 'email',  type: 'text'},
+                   { label: 'Endereço', name: 'address',  type: 'text'},
+                   { label: 'Data de Admissão', name: 'admission_date', type: 'date'},
+                   { label: 'Peso (kg)', name: 'weight',  type: 'number'},
+                   { label: 'Altura (cm)', name: 'height',  type: 'number'},
+                   { label: 'Horas Meditadas nos Últimos 7 dias', name: 'meditation_hours', type: 'number'}
+                  ];
+
+    return info.map (i => {
+      return (
+        <Field
+          label={i.label}
+          name={i.name}
+          type={i.type}
+          component={this.renderField}
+        /> 
+      )
+    });
+  }
 
   render() {
-    const {clientIdValue, partnerIdValue} = this.props;
+    const {clientIdValue, partners} = this.props;
     
     return (
       <div>
         <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
-          <Field
-            label="Empregador (Cliente Pipo)"
-            name="client_id"
-            type="select"
-            component='select'
-          >
-            <option></option>
-            <option value='1'>Acme Co</option> 
-            <option value='2'>Tio Patinhas Bank</option>
-          </Field>
-          { this.renderPartnersField(clientIdValue) }
-          <Field
-            label="Nome"
-            name="name"
-            type="text"
-            component={this.renderField}
-          />
-          
-          <Field
-            label="CPF"
-            name="cpf"
-            type="text"
-            component={this.renderField}
-          />
-          <Field
-            label="E-mail"
-            name="email"
-            type="text"
-            component={this.renderField}
-          />
-          <Field
-            label="Endereço"
-            name="address"
-            type="text"
-            component={this.renderField}
-          />
-          <Field
-            label="Data de Admissão"
-            name="admission_date"
-            type="date"
-            component={this.renderField}
-          />
-          <Field
-            label="Peso em kg"
-            name="weight"
-            type="number"
-            component={this.renderField}
-          />
-          <Field
-            label="Altura em cm"
-            name="height"
-            type="number"
-            component={this.renderField}
-          />
-          <Field
-            label="Horas Medidatas nos Últimos 7 dias"
-            name="meditation_hours"
-            type="number"
-            component={this.renderField}
-          />
+          <div className="form-input-client">
+            <Field
+              label="Empregador (Cliente Pipo)"
+              name="client_id"
+              type="select"
+              component='select'
+            >
+              <option></option>
+              <option value='1'>Acme Co</option> 
+              <option value='2'>Tio Patinhas Bank</option>
+            
+            </Field>
+          </div>
+          <div className="form-input-partners">
+            { this.renderPartnersField(clientIdValue) }
+          </div>
+          <div className="form-inputs-personal-info">
+            { this.renderPersonalFields(partners) }
+          </div>
           <button className="btn btn-primary" type="submit" disabled={this.props.pristine || this.props.submitting}>
             Registrar Beneficiário
           </button>
@@ -136,6 +104,6 @@ export default reduxForm({
 })(
   connect( state => ({
     clientIdValue: selector(state, 'client_id'),
-    partnerIdValue: selector(state, 'partners')
+    partners: selector(state, 'partners')
   }), { createEmployee })(EmployeesNew)
 );
