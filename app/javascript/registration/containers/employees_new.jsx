@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { reduxForm, Field, formValueSelector } from 'redux-form';
-import { createEmployee } from '../actions';
+import { createEmployee } from '../actions/index';
 import { ReduxCheckbox, Checkboxes } from 'react-form-checkbox';
+import { fetchClients } from '../actions/index';
 
 class EmployeesNew extends Component {
+  componentDidMount() {
+    this.props.fetchClients();
+  }
+
   onSubmit = (value) => {
     this.props.createEmployee(value, (employee) => {
       this.props.history.push('/');
@@ -25,6 +31,24 @@ class EmployeesNew extends Component {
     );
   }
 
+  renderClientsField = (clients) => {
+    return (
+      <Field
+        label="Empregador (Cliente Pipo)"
+        name="client_id"
+        type="select"
+        component='select'
+      >
+        <option></option>
+        { clients.map( c => {
+          return (
+            <option value={c.id} key={c.id}>{c.name}</option>
+          );
+        })}
+      </Field>
+    );
+  }
+
   renderPartnersField = (clientId) => {
     const partners = [ 'Plano de Saúde NorteEuropa', 'Plano de Saúde Pampulha Intermédica', 'Plano Dental Sorriso', 'Plano de Saúde Mental Mente Sã, Corpo São'];
     switch(clientId) {
@@ -40,7 +64,7 @@ class EmployeesNew extends Component {
   }
 
   renderPersonalFields = (partners) => {
-    const info = [
+    const infos = [
                    { label: 'Nome', name: 'name', type: 'text'},
                    { label: 'CPF', name: 'cpf',  type: 'text'},
                    { label: 'E-mail', name: 'email',  type: 'text'},
@@ -51,36 +75,29 @@ class EmployeesNew extends Component {
                    { label: 'Horas Meditadas nos Últimos 7 dias', name: 'meditation_hours', type: 'number'}
                   ];
 
-    return info.map (i => {
+    return infos.map( (info, index) => {
       return (
-        <Field
-          label={i.label}
-          name={i.name}
-          type={i.type}
-          component={this.renderField}
-        /> 
+        <div className={`form-input-${info.name}`} key={index}>
+          <Field
+            label={info.label}
+            name={info.name}
+            type={info.type}
+            component={this.renderField}
+          />
+        </div>
       )
     });
   }
 
   render() {
     const {clientIdValue, partners} = this.props;
+    const clients = this.props.clients;
     
     return (
       <div>
         <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
           <div className="form-input-client">
-            <Field
-              label="Empregador (Cliente Pipo)"
-              name="client_id"
-              type="select"
-              component='select'
-            >
-              <option></option>
-              <option value='1'>Acme Co</option> 
-              <option value='2'>Tio Patinhas Bank</option>
-            
-            </Field>
+            { this.renderClientsField(clients) }
           </div>
           <div className="form-input-partners">
             { this.renderPartnersField(clientIdValue) }
@@ -99,11 +116,20 @@ class EmployeesNew extends Component {
 
 const selector = formValueSelector('newEmployeeForm');
 
-export default reduxForm({
-  form: 'newEmployeeForm' // a unique identifier
-})(
-  connect( state => ({
+function mapStateToProps(state) {
+  return {
+    clients: state.clients,
     clientIdValue: selector(state, 'client_id'),
     partners: selector(state, 'partners')
-  }), { createEmployee })(EmployeesNew)
-);
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators( ( { fetchClients, createEmployee } ) , dispatch);
+}
+
+EmployeesNew = connect(mapStateToProps, mapDispatchToProps)(EmployeesNew)
+
+export default reduxForm({
+  form: 'newEmployeeForm' // a unique identifier
+})(EmployeesNew);
