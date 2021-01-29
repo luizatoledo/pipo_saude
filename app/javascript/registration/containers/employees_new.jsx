@@ -33,19 +33,21 @@ class EmployeesNew extends Component {
 
   renderClientsField = (clients) => {
     return (
-      <Field
-        label="Empregador (Cliente Pipo)"
-        name="client_id"
-        type="select"
-        component='select'
-      >
-        <option></option>
-        { clients.map( c => {
-          return (
-            <option value={c.id} key={c.id}>{c.name}</option>
-          );
-        })}
-      </Field>
+      <div className="d-flex flex-column">
+        <label>Empregador (Cliente Pipo):</label>
+        <Field 
+          name="client_id"
+          type="select"
+          component='select'
+        >
+          <option></option>
+          { clients.map( c => {
+            return (
+              <option value={c.id} key={c.id}>{c.name}</option>
+            );
+          })}
+        </Field>
+      </div>
     );
   }
 
