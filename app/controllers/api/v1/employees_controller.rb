@@ -12,7 +12,6 @@ class Api::V1::EmployeesController < ActionController::Base
 
   def create
     @employee = Employee.new(employee_params)
-    binding.pry
     @employee.save
     render json: @employee
   end

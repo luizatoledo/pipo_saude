@@ -24,8 +24,39 @@ class EmployeesNew extends Component {
     );
   }
 
+  renderPartnersField = (clientId) => {
+    const partners = [ 'Plano de Saúde NorteEuropa', 'Plano de Saúde Pampulha Intermédica', 'Plano Dental Sorriso', 'Plano de Saúde Mental Mente Sã, Corpo São'];
+    switch(clientId) {
+      case '1':
+        return (
+          partners.map( p => {
+            return (
+              <Field
+                  label={p}
+                  name="patners"
+                  value={p}
+                  type="checkbox"
+                  component={this.renderField}>
+              </Field>
+            );
+          })
+        );
+      case '2':
+        return (
+          <Field
+              label="Benefícios"
+              name="patners"
+              type="checkbox"
+              component={this.renderField}>
+          </Field>
+        );
+    }
+  }
+
+
   render() {
-    const {clientIdValue} = this.props;
+    const {clientIdValue, partnerIdValue} = this.props;
+    
     return (
       <div>
         <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
@@ -35,10 +66,11 @@ class EmployeesNew extends Component {
             type="select"
             component='select'
           >
+            <option></option>
             <option value='1'>Acme Co</option> 
             <option value='2'>Tio Patinhas Bank</option>
           </Field>
-          {`client id:${clientIdValue}`}
+          { this.renderPartnersField(clientIdValue) }
           <Field
             label="Nome"
             name="name"
@@ -103,6 +135,7 @@ export default reduxForm({
   form: 'newEmployeeForm' // a unique identifier
 })(
   connect( state => ({
-    clientIdValue: selector(state, 'client_id')
+    clientIdValue: selector(state, 'client_id'),
+    partnerIdValue: selector(state, 'partners')
   }), { createEmployee })(EmployeesNew)
 );
