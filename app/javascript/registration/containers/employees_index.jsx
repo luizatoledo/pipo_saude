@@ -14,8 +14,8 @@ class EmployeesIndex extends Component {
       return (
         <Link to={`/employees/${employee.id}`} key={employee.id}>
           <div className="employee-item">
-            <h3>{employee.title}</h3>
-            <p>{employee.content}</p>
+            <h3>{employee.name}</h3>
+            <p>{employee.client_id}</p>
           </div>
         </Link>
       );

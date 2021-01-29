@@ -1,4 +1,5 @@
 class Api::V1::EmployeesController < ActionController::Base
+  skip_before_action :verify_authenticity_token
   def index
     @employees = Employee.all
     render json: @employees
@@ -10,7 +11,9 @@ class Api::V1::EmployeesController < ActionController::Base
   end
 
   def create
-    @employee = Employee.create(employee_params)
+    @employee = Employee.new(employee_params)
+    binding.pry
+    @employee.save
     render json: @employee
   end
 
@@ -20,3 +23,4 @@ class Api::V1::EmployeesController < ActionController::Base
     params.require(:employee).permit(:name, :cpf, :admission_date, :email, :address, :weight, :height, :meditation_hours, :client_id)
   end
 end
+

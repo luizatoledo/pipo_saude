@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, Field, formValueSelector } from 'redux-form';
 import { createEmployee } from '../actions';
 
 class EmployeesNew extends Component {
-  onSubmit = (info) => {
-    this.props.createEmployees(info, (employee) => {
+  onSubmit = (value) => {
+    this.props.createEmployee(value, (employee) => {
       this.props.history.push('/');
       return employee;
     });
@@ -25,15 +25,27 @@ class EmployeesNew extends Component {
   }
 
   render() {
+    const {clientIdValue} = this.props;
     return (
       <div>
         <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
+          <Field
+            label="Empregador (Cliente Pipo)"
+            name="client_id"
+            type="select"
+            component='select'
+          >
+            <option value='1'>Acme Co</option> 
+            <option value='2'>Tio Patinhas Bank</option>
+          </Field>
+          {`client id:${clientIdValue}`}
           <Field
             label="Nome"
             name="name"
             type="text"
             component={this.renderField}
           />
+          
           <Field
             label="CPF"
             name="cpf"
@@ -49,12 +61,6 @@ class EmployeesNew extends Component {
           <Field
             label="Endereço"
             name="address"
-            type="text"
-            component={this.renderField}
-          />
-          <Field
-            label="Empregador (Cliente Pipo)"
-            name="cliend_id"
             type="text"
             component={this.renderField}
           />
@@ -91,8 +97,12 @@ class EmployeesNew extends Component {
   }
 }
 
+const selector = formValueSelector('newEmployeeForm');
+
 export default reduxForm({
   form: 'newEmployeeForm' // a unique identifier
 })(
-  connect(null, { createEmployee })(EmployeesNew)
+  connect( state => ({
+    clientIdValue: selector(state, 'client_id')
+  }), { createEmployee })(EmployeesNew)
 );

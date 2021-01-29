@@ -13,14 +13,14 @@ class EmployeesShow extends Component {
     const { employee } = this.props;
 
     if (!employee) {
-      return <p>Buscando beneficiários...</p>;
+      return <p>Buscando beneficiário...</p>;
     }
 
     return (
       <div>
         <div className="employee-item">
-          <h3>{employee.title}</h3>
-          <p>{employee.content}</p>
+          <h3>{employee.name}</h3>
+          <p>{employee.client_id}</p>
         </div>
         <Link to="/">
           Back

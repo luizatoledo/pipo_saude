@@ -4,7 +4,7 @@ export const FETCH_EMPLOYEE = 'FETCH_EMPLOYEE';
 export const CREATE_EMPLOYEE = 'CREATE_EMPLOYEE';
 
 export function fetchEmployees() {
-  const promise = fetch("/api/v1/employees").then(response => response.json());
+  const promise = fetch('/api/v1/employees').then(response => response.json());
 
   return {
     type: FETCH_EMPLOYEES,
@@ -22,7 +22,7 @@ export function fetchEmployee(id) {
 }
 
 export function createEmployee(info, callback) {
-  const request = fetch("/api/v1/employees", {
+  const request = fetch('/api/v1/employees', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
