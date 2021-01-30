@@ -12,7 +12,6 @@ import { reducer as formReducer } from 'redux-form';
 // Internal imports (containers, components and reducers)
 import employeesReducer from './reducers/employees_reducer';
 import clientsReducer from './reducers/clients_reducer';
-import partnersReducer from './reducers/partners_reducer';
 import EmployeesIndex from './containers/employees_index';
 import EmployeesShow from './containers/employees_show';
 import EmployeesNew from './containers/employees_new';
@@ -21,7 +20,6 @@ import EmployeesNew from './containers/employees_new';
 const reducers = combineReducers({
   employees: employeesReducer,
   clients: clientsReducer,
-  partners: partnersReducer,
   form: formReducer
 });
 
@@ -30,7 +28,6 @@ const initialState = {
   //employees: JSON.parse(root.dataset.employees),
   employees: [],
   clients: [],
-  partners: []
 };
 
 // Middlewares and Store
