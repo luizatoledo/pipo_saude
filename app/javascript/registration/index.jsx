@@ -11,6 +11,7 @@ import { reducer as formReducer } from 'redux-form';
 
 // Internal imports (containers, components and reducers)
 import employeesReducer from './reducers/employees_reducer';
+import clientsReducer from './reducers/clients_reducer';
 import EmployeesIndex from './containers/employees_index';
 import EmployeesShow from './containers/employees_show';
 import EmployeesNew from './containers/employees_new';
@@ -18,13 +19,15 @@ import EmployeesNew from './containers/employees_new';
 // Declaring reducers that deal with each key of the Redux State
 const reducers = combineReducers({
   employees: employeesReducer,
+  clients: clientsReducer,
   form: formReducer
 });
 
 // Setting initialState to preload data in first HTTP request
 const initialState = {
   //employees: JSON.parse(root.dataset.employees),
-  employees: []
+  employees: [],
+  clients: [],
 };
 
 // Middlewares and Store
