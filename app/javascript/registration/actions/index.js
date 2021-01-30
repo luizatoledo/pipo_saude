@@ -3,7 +3,7 @@ export const FETCH_EMPLOYEES = 'FETCH_EMPLOYEES';
 export const FETCH_EMPLOYEE = 'FETCH_EMPLOYEE';
 export const CREATE_EMPLOYEE = 'CREATE_EMPLOYEE';
 export const FETCH_CLIENTS = 'FETCH_CLIENTS';
-
+export const FETCH_CLIENT = 'FETCH_CLIENT';
 
 // Actions that use Employee API
 export function fetchEmployees() {
@@ -49,4 +49,13 @@ export function fetchClients() {
     type: FETCH_CLIENTS,
     payload: promise
   }
+}
+
+export function fetchClient(id) {
+  const promise = fetch(`/api/v1/clients/${id}`).then(response => response.json());
+
+  return {
+    type: FETCH_CLIENT,
+    payload: promise
+  };
 }

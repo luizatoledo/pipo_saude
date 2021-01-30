@@ -13,10 +13,32 @@ Client.delete_all
 Partner.delete_all
 
 # Creating Partners on DB
-norte_europa = Partner.create!(name: 'Plano de Saúde NorteEuropa', registration_data: ['name', 'cpf', 'admission_date', 'email'])
-pampulha = Partner.create!(name: 'Plano de Saúde Pampulha Intermédica', registration_data: ['name', 'cpf', 'admission_date', 'address'])
-dental = Partner.create!(name: 'Plano odontológico Dental Sorriso', registration_data: ['name', 'cpf', 'weight', 'height'])
-mental = Partner.create!(name: 'Plano de Saúde Mente Sã, Corpo São', registration_data: ['cpf', 'meditation_hours'])
+norte_europa = Partner.create!(name: 'Plano de Saúde NorteEuropa',
+                               registration_data: [
+                                { label: 'Nome', name: 'name', type: 'text'},
+                                { label: 'CPF', name: 'cpf',  type: 'text'},
+                                { label: 'Data de Admissão', name: 'admission_date', type: 'date'},
+                                { label: 'E-mail', name: 'email',  type: 'text'}
+                              ])
+pampulha = Partner.create!(name: 'Plano de Saúde Pampulha Intermédica',
+                           registration_data: [
+                            { label: 'Nome', name: 'name', type: 'text'},
+                            { label: 'CPF', name: 'cpf',  type: 'text'},
+                            { label: 'Data de Admissão', name: 'admission_date', type: 'date'},
+                            { label: 'Endereço', name: 'address',  type: 'text'}
+                            ])
+dental = Partner.create!(name: 'Plano odontológico Dental Sorriso',
+                         registration_data: [
+                          { label: 'Nome', name: 'name', type: 'text'},
+                          { label: 'CPF', name: 'cpf',  type: 'text'},
+                          { label: 'Peso (kg)', name: 'weight',  type: 'number'},
+                          { label: 'Altura (cm)', name: 'height',  type: 'number'}
+                          ])
+mental = Partner.create!(name: 'Plano de Saúde Mente Sã, Corpo São',
+                         registration_data: [
+                          { label: 'CPF', name: 'cpf',  type: 'text'},
+                          { label: 'Horas Meditadas nos Últimos 7 dias', name: 'meditation_hours', type: 'number'}
+                          ])
 
 # Creating Clients on DB
 acme = Client.create!(name: 'Acme Co')
