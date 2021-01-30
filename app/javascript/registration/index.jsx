@@ -29,7 +29,8 @@ const reducers = combineReducers({
 const initialState = {
   //employees: JSON.parse(root.dataset.employees),
   employees: [],
-  clients: []
+  clients: [],
+  partners: []
 };
 
 // Middlewares and Store

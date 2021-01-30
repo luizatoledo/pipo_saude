@@ -5,7 +5,6 @@ import { reduxForm, Field, formValueSelector } from 'redux-form';
 import { createEmployee } from '../actions/index';
 import { ReduxCheckbox, Checkboxes } from 'react-form-checkbox';
 import { fetchClients } from '../actions/index';
-import { fetchClient } from '../actions/index';
 import { fetchPartners } from '../actions/index';
 
 class EmployeesNew extends Component {
@@ -60,16 +59,17 @@ class EmployeesNew extends Component {
 
   // Function to render the fields of options of partners
   renderPartnersField = (clientId) => {
-    const partners = [ 'Plano de Saúde NorteEuropa', 'Plano de Saúde Pampulha Intermédica', 'Plano Dental Sorriso', 'Plano de Saúde Mental Mente Sã, Corpo São'];
     // clientId ? this.props.fetchClient(clientId) : null ;
     // need to find a way to use fetchClient(id) in order to pull information about partners related
     // to the selected client
+    const partners = this.props.partners;
+    // console.log(partners.map(p => p.registration_data.map(d => JSON.parse(d).name));
     switch(clientId) {
-      case '4':
+      case '12':
         return (
           <Field 
             component={ReduxCheckbox(Checkboxes)}
-            data={partners} 
+            data={partners.map(p => p.name)} 
             name="partners" 
           />
         );
@@ -109,7 +109,7 @@ class EmployeesNew extends Component {
 
   // Final Render function
   render() {
-    const {clientIdValue, partners, clients} = this.props;
+    const {clientIdValue, chosenPartners, clients} = this.props;
     return (
       <div>
         <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
@@ -120,7 +120,7 @@ class EmployeesNew extends Component {
             { this.renderPartnersField(clientIdValue)}
           </div>
           <div className="form-inputs-personal-info">
-            { this.renderPersonalFields(partners) }
+            { this.renderPersonalFields(chosenPartners) }
           </div>
           <button className="btn btn-primary" type="submit" disabled={this.props.pristine || this.props.submitting}>
             Registrar Beneficiário
@@ -139,13 +139,14 @@ const selector = formValueSelector('newEmployeeForm');
 function mapStateToProps(state) {
   return {
     clients: state.clients,
+    partners: state.partners,
     clientIdValue: selector(state, 'client_id'),
-    partners: selector(state, 'partners')
+    chosenPartners: selector(state, 'partners')
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators( ( {fetchPartners, fetchClients, createEmployee } ) , dispatch);
+  return bindActionCreators( ( { fetchPartners, fetchClients, createEmployee } ) , dispatch);
 }
 
 EmployeesNew = connect(mapStateToProps, mapDispatchToProps)(EmployeesNew)

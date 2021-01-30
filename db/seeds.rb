@@ -5,7 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-
+require 'json'
 # Deleting existing structures
 Employee.delete_all
 Contract.delete_all
@@ -15,29 +15,29 @@ Partner.delete_all
 # Creating Partners on DB
 norte_europa = Partner.create!(name: 'Plano de Saúde NorteEuropa',
                                registration_data: [
-                                { label: 'Nome', name: 'name', type: 'text'},
-                                { label: 'CPF', name: 'cpf',  type: 'text'},
-                                { label: 'Data de Admissão', name: 'admission_date', type: 'date'},
-                                { label: 'E-mail', name: 'email',  type: 'text'}
+                                { "label": 'Nome', "name": 'name', "type": 'text'}.to_json,
+                                { "label": 'CPF', "name": 'cpf',  "type": 'text'}.to_json,
+                                { "label": 'Data de Admissão', "name": 'admission_date', "type": 'date'}.to_json,
+                                { "label": 'E-mail', "name": 'email',  "type": 'text'}.to_json
                               ])
 pampulha = Partner.create!(name: 'Plano de Saúde Pampulha Intermédica',
                            registration_data: [
-                            { label: 'Nome', name: 'name', type: 'text'},
-                            { label: 'CPF', name: 'cpf',  type: 'text'},
-                            { label: 'Data de Admissão', name: 'admission_date', type: 'date'},
-                            { label: 'Endereço', name: 'address',  type: 'text'}
+                            { "label": 'Nome', "name": 'name', "type": 'text'}.to_json,
+                            { "label": 'CPF', "name": 'cpf',  "type": 'text'}.to_json,
+                            { "label": 'Data de Admissão', "name": 'admission_date', "type": 'date'}.to_json,
+                            { "label": 'Endereço', "name": 'address',  "type": 'text'}.to_json
                             ])
 dental = Partner.create!(name: 'Plano odontológico Dental Sorriso',
                          registration_data: [
-                          { label: 'Nome', name: 'name', type: 'text'},
-                          { label: 'CPF', name: 'cpf',  type: 'text'},
-                          { label: 'Peso (kg)', name: 'weight',  type: 'number'},
-                          { label: 'Altura (cm)', name: 'height',  type: 'number'}
+                          { "label": 'Nome', "name": 'name', "type": 'text'}.to_json,
+                          { "label": 'CPF', "name": 'cpf',  "type": 'text'}.to_json,
+                          { "label": 'Peso (kg)', "name": 'weight',  "type": 'number'}.to_json,
+                          { "label": 'Altura (cm)', "name": 'height',  "type": 'number'}.to_json
                           ])
 mental = Partner.create!(name: 'Plano de Saúde Mente Sã, Corpo São',
                          registration_data: [
-                          { label: 'CPF', name: 'cpf',  type: 'text'},
-                          { label: 'Horas Meditadas nos Últimos 7 dias', name: 'meditation_hours', type: 'number'}
+                          { "label": 'CPF', "name": 'cpf',  "type": 'text'}.to_json,
+                          { "label": 'Horas Meditadas nos Últimos 7 dias', "name": 'meditation_hours', "type": 'number'}.to_json
                           ])
 
 # Creating Clients on DB
