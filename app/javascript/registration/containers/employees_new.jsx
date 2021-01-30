@@ -6,11 +6,13 @@ import { createEmployee } from '../actions/index';
 import { ReduxCheckbox, Checkboxes } from 'react-form-checkbox';
 import { fetchClients } from '../actions/index';
 import { fetchClient } from '../actions/index';
+import { fetchPartners } from '../actions/index';
 
 class EmployeesNew extends Component {
   componentDidMount() {
-    // Initially fill Redux State with clients array
+    // Initially fill Redux State with clients and partners arrays
     this.props.fetchClients();
+    this.props.fetchPartners();
   }
 
   // Redirect to home page after form submission
@@ -143,7 +145,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators( ( { fetchClient, fetchClients, createEmployee } ) , dispatch);
+  return bindActionCreators( ( {fetchPartners, fetchClients, createEmployee } ) , dispatch);
 }
 
 EmployeesNew = connect(mapStateToProps, mapDispatchToProps)(EmployeesNew)
