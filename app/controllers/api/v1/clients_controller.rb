@@ -3,7 +3,10 @@ class Api::V1::ClientsController < ActionController::Base
 
   def index
     @clients = Client.all
-    render json: @clients
+    clients_with_partners = @clients.map do |c|
+      {client: c, client_partners: c.partners}
+    end
+    render json: clients_with_partners
   end
 
   def show

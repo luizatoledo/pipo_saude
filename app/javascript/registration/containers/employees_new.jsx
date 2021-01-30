@@ -5,6 +5,7 @@ import { reduxForm, Field, formValueSelector } from 'redux-form';
 import { createEmployee } from '../actions/index';
 import { ReduxCheckbox, Checkboxes } from 'react-form-checkbox';
 import { fetchClients } from '../actions/index';
+import { fetchClient } from '../actions/index';
 import { fetchPartners } from '../actions/index';
 
 class EmployeesNew extends Component {
@@ -35,6 +36,7 @@ class EmployeesNew extends Component {
     );
   }
 
+
   // Function to render the dropdown list field to choose the Client that is the employer 
   renderClientsField = (clients) => {
     return (
@@ -49,7 +51,7 @@ class EmployeesNew extends Component {
           <option></option>
           { clients.map( c => {
             return (
-              <option value={c.id} key={c.id}>{c.name}</option>
+              <option value={c.client.id} key={c.client.id}>{c.client.name}</option>
             );
           })}
         </Field>
@@ -58,11 +60,11 @@ class EmployeesNew extends Component {
   }
 
   // Function to render the fields of options of partners
-  renderPartnersField = (clientId) => {
+  renderPartnersField = (clientId, partners) => {
     // clientId ? this.props.fetchClient(clientId) : null ;
     // need to find a way to use fetchClient(id) in order to pull information about partners related
     // to the selected client
-    const partners = this.props.partners;
+    console.log(partners);
     // console.log(partners.map(p => p.registration_data.map(d => JSON.parse(d).name));
     switch(clientId) {
       case '12':
@@ -109,7 +111,7 @@ class EmployeesNew extends Component {
 
   // Final Render function
   render() {
-    const {clientIdValue, chosenPartners, clients} = this.props;
+    const {clientIdValue, chosenPartners, clients, partners} = this.props;
     return (
       <div>
         <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
@@ -117,7 +119,7 @@ class EmployeesNew extends Component {
             { this.renderClientsField(clients) }
           </div>
           <div className="form-input-partners">
-            { this.renderPartnersField(clientIdValue)}
+            { this.renderPartnersField(clientIdValue, partners)}
           </div>
           <div className="form-inputs-personal-info">
             { this.renderPersonalFields(chosenPartners) }
@@ -136,17 +138,18 @@ class EmployeesNew extends Component {
 // Set selector to get values that users input
 const selector = formValueSelector('newEmployeeForm');
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
     clients: state.clients,
     partners: state.partners,
     clientIdValue: selector(state, 'client_id'),
-    chosenPartners: selector(state, 'partners')
+    chosenPartners: selector(state, 'partners'),
+    client: state.clients.find( c => c.id === parseInt(state.clientIdValue, 10))
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators( ( { fetchPartners, fetchClients, createEmployee } ) , dispatch);
+  return bindActionCreators( ( { fetchClient, fetchPartners, fetchClients, createEmployee } ) , dispatch);
 }
 
 EmployeesNew = connect(mapStateToProps, mapDispatchToProps)(EmployeesNew)
