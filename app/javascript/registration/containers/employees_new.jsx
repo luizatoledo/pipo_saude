@@ -8,7 +8,7 @@ import { fetchClients } from '../actions/index';
 
 class EmployeesNew extends Component {
   componentDidMount() {
-    // Initially fill Redux State with clients and partners arrays
+    // Initially fill Redux State with clients array
     this.props.fetchClients();
   }
 
@@ -57,44 +57,48 @@ class EmployeesNew extends Component {
 
   // Function to render the fields of options of partners
   renderPartnersField = (clientId, clients) => {
-    const partners = clients.find( c => c.client.id === parseInt(clientId,10));
-    clientId ? console.log(partners.client_partners) : null;
+    const chosenClient = clients.find( c => c.client.id === parseInt(clientId,10));
     if (clientId) {
       return (
         <Field 
           component={ReduxCheckbox(Checkboxes)}
-          data={partners.client_partners.map(p => p.name)} 
-          name="partners" 
+          data={chosenClient.client_partners.map(p => p.name)} 
+          name="partners"
         />
       );
     }
   }
 
   // Function to render fields related to personal data from employees
-  renderPersonalFields = (partners) => {
-    const infos = [
-                   { label: 'Nome', name: 'name', type: 'text'},
-                   { label: 'CPF', name: 'cpf',  type: 'text'},
-                   { label: 'E-mail', name: 'email',  type: 'text'},
-                   { label: 'Endereço', name: 'address',  type: 'text'},
-                   { label: 'Data de Admissão', name: 'admission_date', type: 'date'},
-                   { label: 'Peso (kg)', name: 'weight',  type: 'number'},
-                   { label: 'Altura (cm)', name: 'height',  type: 'number'},
-                   { label: 'Horas Meditadas nos Últimos 7 dias', name: 'meditation_hours', type: 'number'}
-                  ];
-
-    return infos.map( (info, index) => {
-      return (
-        <div className={`form-input-${info.name}`} key={index}>
-          <Field
-            label={info.label}
-            name={info.name}
-            type={info.type}
-            component={this.renderField}
-          />
-        </div>
-      )
-    });
+  renderPersonalFields = (chosenPartners, clients, clientId) => {  
+    if (chosenPartners && clientId) {
+      // Array of instances of Partners that were displayed for the user, based on the client that the user choose before
+      const possiblePartners = clients.find( c => c.client.id === parseInt(clientId,10)).client_partners;
+      // Compare the choesen partners names to the options and return the full instances that were chosen
+      const chosenPartnersInstances = chosenPartners.map( p => possiblePartners.find(pp => pp.name === p)).filter( a => a !== undefined);
+      // Get the registration data needed from all the partners chosen
+      const data = chosenPartnersInstances.map( cpi => cpi.registration_data );
+      // Merge the arrays of data needed from the different instances of Partner
+      if (data.length !== 0) {
+        console.log(data);
+        const dataPrint = data.reduce((acc, curr) => acc.concat(curr) );
+        // Remove repeated values of data needed
+        const infos = dataPrint.filter( (v,i,a) => a.indexOf(v) === i);
+        console.log(infos);
+        return infos.map( (info, index) => {
+          return (
+            <div className={`form-input-${JSON.parse(info).name}`} key={index}>
+              <Field
+                label={JSON.parse(info).label}
+                name={JSON.parse(info).name}
+                type={JSON.parse(info).type}
+                component={this.renderField}
+              />
+            </div>
+          )
+        });
+      }
+    }
   }
 
   // Final Render function
@@ -110,7 +114,7 @@ class EmployeesNew extends Component {
             { this.renderPartnersField(clientIdValue, clients)}
           </div>
           <div className="form-inputs-personal-info">
-            { this.renderPersonalFields(chosenPartners) }
+            { this.renderPersonalFields(chosenPartners, clients,clientIdValue) }
           </div>
           <button className="btn btn-primary" type="submit" disabled={this.props.pristine || this.props.submitting}>
             Registrar Beneficiário
