@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { reduxForm, Field, formValueSelector, Fields } from 'redux-form';
@@ -47,13 +48,13 @@ class EmployeesNew extends Component {
   required = value => value ? undefined : 'Campo Obrigatório';
   string = value => typeof(value) === 'string' ? undefined : 'Esse campo só aceita texto';
   integer = value => /^[0-9]+$/.test(value) && value > 0 ? undefined : 'Informe um valor numérico positivo sem casas decimais';
-  decimal = value => /^[0-9]+\.[0-9]$/.test(value) && value > 0 ? undefined : 'Informe um valor numérico positivo com até uma casa decimal no formato XX.X';
+  decimal = value => /^[0-9]+\.?[0-9]?$/.test(value) && value > 0 ? undefined : 'Informe um valor numérico positivo com até uma casa decimal no formato XX.X';
   cpfFormValidator = value => /^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/.test(value) ? undefined : 'Informe o CPF com 11 dígitos';
   cpfExistence = value => isCPF(value) ? undefined : 'CPF inválido';
-  emailFormat = value => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? undefined : 'Formato de e-mail inválido';
+  emailFormat = value => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}(\.?[A-Z]{2,4})?$/i.test(value) ? undefined : 'Formato de e-mail inválido';
   maxHeight = value => value < 300 ? undefined : 'Verifique o valor inserido';
   maxLength = max => value => value.length <= max ? undefined : `Tamanho máximo é de ${max} caracteres`
-  nameFromatValidator = value => /^[a-zA-Z\s]+$/i.test(value) ? undefined : 'Apenas letras são aceitas no nome'
+  nameFromatValidator = value => /^[a-zA-Z\sà-úÀ-ÚçÇêÊ]+$/i.test(value) ? undefined : 'Apenas letras são aceitas no nome'
   
   renderValidations = (fieldName) => {
     const validators = [this.required];
@@ -150,7 +151,7 @@ class EmployeesNew extends Component {
       return (
         <div>
           <h5>Dados dos Benefícios</h5>
-          <div className="ml-2">
+          <div className="ml-2 partner-options-labels">
             <Field 
               component={ReduxCheckbox(Checkboxes)}
               data={chosenClient.client_partners.map(p => p.name)} 
@@ -184,7 +185,7 @@ class EmployeesNew extends Component {
             <div className="ml-2">
               {infos.map( (info, index) => {
                 return (
-                  <div className={`form-input-${JSON.parse(info).name}`} key={index}>
+                  <div className={`form-input-personal ${JSON.parse(info).name}`} key={index}>
                     <Field
                       label={JSON.parse(info).label}
                       name={JSON.parse(info).name}
@@ -233,6 +234,7 @@ class EmployeesNew extends Component {
               </button>
             </div>
           </form>
+          <Link to={`/`}>Voltar</Link>
         </div>
       </div>
     );
