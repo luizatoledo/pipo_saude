@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { reduxForm, Field, formValueSelector, SubmissionError } from 'redux-form';
+import { reduxForm, Field, formValueSelector, Fields } from 'redux-form';
 import { createEmployee } from '../actions/index';
 import { ReduxCheckbox, Checkboxes } from 'react-form-checkbox';
 import { fetchClients } from '../actions/index';
@@ -46,21 +46,23 @@ class EmployeesNew extends Component {
   // Functions to Field Validation
   required = value => value ? undefined : 'Campo Obrigatório';
   string = value => typeof(value) === 'string' ? undefined : 'Esse campo só aceita texto';
-  integer = value => /^[0-9]+$/.test(value) ? undefined : 'Informe um valor numérico sem casas decimais';
-  decimal = value => /^[0-9]+\.[0-9]$/.test(value) ? undefined : 'Informe um valor numérico com até uma casa decimal no formato XX.X';
+  integer = value => /^[0-9]+$/.test(value) && value > 0 ? undefined : 'Informe um valor numérico positivo sem casas decimais';
+  decimal = value => /^[0-9]+\.[0-9]$/.test(value) && value > 0 ? undefined : 'Informe um valor numérico positivo com até uma casa decimal no formato XX.X';
   cpfFormValidator = value => /^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/.test(value) ? undefined : 'Informe o CPF com 11 dígitos';
-  cpfExistance = value => isCPF(value) ? undefined : 'CPF inválido';
+  cpfExistence = value => isCPF(value) ? undefined : 'CPF inválido';
   emailFormat = value => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? undefined : 'Formato de e-mail inválido';
   maxHeight = value => value < 300 ? undefined : 'Verifique o valor inserido';
+  maxLength = max => value => value.length <= max ? undefined : `Tamanho máximo é de ${max} caracteres`
+  nameFromatValidator = value => /^[a-zA-Z\s]+$/i.test(value) ? undefined : 'Apenas letras são aceitas no nome'
   
   renderValidations = (fieldName) => {
     const validators = [this.required];
     switch(fieldName) {
       case 'name':
-        validators.push(this.string);
+        validators.push(this.string, this.maxLength(50), this.nameFromatValidator);
         return validators;
       case 'cpf':
-        validators.push(this.cpfFormValidator, this.cpfExistance);
+        validators.push(this.cpfFormValidator, this.cpfExistence);
         return validators;
       case 'admission_date':
         return validators;
@@ -71,7 +73,7 @@ class EmployeesNew extends Component {
         validators.push(this.decimal);
         return validators;
       case 'height':
-        validators.push(this.integer);
+        validators.push(this.integer, this.maxHeight);
         return validators;
       case 'address':
         return validators;
@@ -83,10 +85,15 @@ class EmployeesNew extends Component {
   // Functions to Field Formatting
     cpfFormatting = (value) => {
       if (!value) return;
-      const formattedInput = value.replace(/([0-9]{3})([0-9]{3})([0-9]{3})([0-9]{2})/, `$1.$2.$3-$4`);
-      return formattedInput;
+      const onlyNums = value.replace(/[^\d]/g,'');
+      if (onlyNums.length <= 3) {
+        return onlyNums;
+      } else if (onlyNums.lenghth <= 7) {
+        return `${onlyNums.slice(0,3)}.${onlyNums.slice(3)}`
+      }
+      return `${onlyNums.slice(0,3)}.${onlyNums.slice(3,6)}.${onlyNums.slice(6,9)}-${onlyNums.slice(9,11)}`
     }
-
+    
     renderFormattings = (fieldName) => {
       switch(fieldName) {
         case 'cpf':
@@ -151,7 +158,7 @@ class EmployeesNew extends Component {
       );
     }
   }
-
+  
   // Function to render fields related to personal data from employees
   renderPersonalFields = (chosenPartners, clients, clientId) => {  
     if (chosenPartners && clientId) {
@@ -175,7 +182,7 @@ class EmployeesNew extends Component {
                 type={JSON.parse(info).type}
                 component={this.renderField}
                 validate={this.renderValidations(JSON.parse(info).name)}
-                format={this.renderFormattings(JSON.parse(info).name)}
+                normalize={this.renderFormattings(JSON.parse(info).name)}
                 placeholder={this.setPlaceholder(JSON.parse(info).name)}
               />
             </div>

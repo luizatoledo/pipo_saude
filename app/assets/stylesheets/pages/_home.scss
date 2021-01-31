@@ -1,1 +1,22 @@
 // Specific CSS for your home-page
+.btn-pipo {
+  color: white;
+  padding: 8px 24px;
+  border-radius: 5px;
+  font-weight: lighter;
+  font-family: 'Poppins', sans-serif;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+  background-color: #E93753;
+}
+
+.btn-pipo:hover {
+  opacity: 1;
+  color: white;
+}
+
+.title-employees-index{
+  h3{
+    font-family: 'Poppins', sans-serif;
+  }
+}
