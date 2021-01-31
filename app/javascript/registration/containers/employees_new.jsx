@@ -20,18 +20,70 @@ class EmployeesNew extends Component {
     });
   }
 
-  renderField(field) {
+  renderField({input, label, type, meta: {touched, error, warning}}) {
     return (
       <div className="form-group">
-        <label>{field.label}</label>
+        <label>{label}</label>
         <input
           className="form-control"
-          type={field.type}
-          {...field.input}
+          type={type}
+          {...input}
         />
+        {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
       </div>
     );
   }
+
+  // Functions to Field Validation
+  required = value => value ? undefined : 'Campo Obrigatório';
+  string = value => typeof(value) === 'string' ? undefined : 'Esse campo só aceita texto';
+  integer = value => /^[0-9]+$/.test(value) ? undefined : 'Informe um valor numérico sem casas decimais';
+  decimal = value => /^[0-9]+\.[0-9]$/.test(value) ? undefined : 'Informe um valor numérico com até uma casa decimal no formato XX.X';
+  cpfValidator = value => /^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/.test(value) ? undefined : 'Informe o CPF no formato XXX.XXX.XXX-XX';
+  emailFormat = value => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? undefined : 'Formato de e-mail inválido';
+  maxHeight = value => value < 300 ? undefined : 'Verifique o valor inserido'
+   
+  renderValidations = (fieldName) => {
+    const validators = [this.required];
+    switch(fieldName) {
+      case 'name':
+        validators.push(this.string);
+        return validators;
+      case 'cpf':
+        validators.push(this.cpfValidator);
+        return validators;
+      case 'admission_date':
+        return validators;
+      case 'email':
+        validators.push(this.emailFormat);
+        return validators;
+      case 'weight':
+        validators.push(this.decimal);
+        return validators;
+      case 'height':
+        validators.push(this.integer);
+        return validators;
+      case 'address':
+        return validators;
+      case 'meditation_hours':
+        return validators;
+    }
+  }
+
+  // Functions to Field Formatting
+    cpfFormatting = (value) => {
+      if (!value) return;
+      const formattedInput = value.replace(/([0-9]{3})([0-9]{3})([0-9]{3})([0-9]{2})/, `$1.$2.$3-$4`);
+      return formattedInput;
+    }
+
+    renderFormattings = (fieldName) => {
+      switch(fieldName) {
+        case 'cpf':
+          return this.cpfFormatting;
+      }
+    }
+
 
   // Function to render the dropdown list field to choose the Client that is the employer 
   renderClientsField = (clients) => {
@@ -43,8 +95,9 @@ class EmployeesNew extends Component {
           type="select"
           component='select'
           id="client-choose"
+          validate={this.required}
         >
-          <option></option>
+
           { clients.map( c => {
             return (
               <option value={c.client.id} key={c.client.id}>{c.client.name}</option>
@@ -64,6 +117,7 @@ class EmployeesNew extends Component {
           component={ReduxCheckbox(Checkboxes)}
           data={chosenClient.client_partners.map(p => p.name)} 
           name="partners"
+          validate={this.required}
         />
       );
     }
@@ -80,11 +134,9 @@ class EmployeesNew extends Component {
       const data = chosenPartnersInstances.map( cpi => cpi.registration_data );
       // Merge the arrays of data needed from the different instances of Partner
       if (data.length !== 0) {
-        console.log(data);
         const dataPrint = data.reduce((acc, curr) => acc.concat(curr) );
         // Remove repeated values of data needed
         const infos = dataPrint.filter( (v,i,a) => a.indexOf(v) === i);
-        console.log(infos);
         return infos.map( (info, index) => {
           return (
             <div className={`form-input-${JSON.parse(info).name}`} key={index}>
@@ -93,6 +145,8 @@ class EmployeesNew extends Component {
                 name={JSON.parse(info).name}
                 type={JSON.parse(info).type}
                 component={this.renderField}
+                validate={this.renderValidations(JSON.parse(info).name)}
+                format={this.renderFormattings(JSON.parse(info).name)}
               />
             </div>
           )
@@ -142,7 +196,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators( ( { fetchClients, createEmployee } ) , dispatch);
 }
 
-EmployeesNew = connect(mapStateToProps, mapDispatchToProps)(EmployeesNew)
+EmployeesNew = connect(mapStateToProps, mapDispatchToProps)(EmployeesNew);
 
 export default reduxForm({
   form: 'newEmployeeForm' // a unique identifier
