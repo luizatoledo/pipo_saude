@@ -7,11 +7,15 @@ import { ReduxCheckbox, Checkboxes } from 'react-form-checkbox';
 import { fetchClients } from '../actions/index';
 
 class EmployeesNew extends Component {
+
+  // -------------------- Component LifeCycle-----------------------------  
   componentDidMount() {
     // Initially fill Redux State with clients array
     this.props.fetchClients();
   }
+  // ----------------------------------------------------------------------  
 
+  //  -------------------- Event Handling of Inputs -----------------------
   // Redirect to home page after form submission
   onSubmit = (value) => {
     this.props.createEmployee(value, (employee) => {
@@ -19,8 +23,11 @@ class EmployeesNew extends Component {
       return employee;
     });
   }
+  // ----------------------------------------------------------------------  
 
-  renderField({input, label, type, meta: {touched, error, warning}}) {
+  // ------------------------- Field Rendering ----------------------------
+  // Render form inputs with a specific formatting
+  renderField({input, label, type, meta: {touched, error, warning}, placeholder}) {
     return (
       <div className="form-group">
         <label>{label}</label>
@@ -28,6 +35,7 @@ class EmployeesNew extends Component {
           className="form-control"
           type={type}
           {...input}
+          placeholder={placeholder}
         />
         {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
       </div>
@@ -39,7 +47,7 @@ class EmployeesNew extends Component {
   string = value => typeof(value) === 'string' ? undefined : 'Esse campo só aceita texto';
   integer = value => /^[0-9]+$/.test(value) ? undefined : 'Informe um valor numérico sem casas decimais';
   decimal = value => /^[0-9]+\.[0-9]$/.test(value) ? undefined : 'Informe um valor numérico com até uma casa decimal no formato XX.X';
-  cpfValidator = value => /^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/.test(value) ? undefined : 'Informe o CPF no formato XXX.XXX.XXX-XX';
+  cpfValidator = value => /^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/.test(value) ? undefined : 'Informe o CPF com 11 dígitos';
   emailFormat = value => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? undefined : 'Formato de e-mail inválido';
   maxHeight = value => value < 300 ? undefined : 'Verifique o valor inserido'
    
@@ -84,6 +92,25 @@ class EmployeesNew extends Component {
       }
     }
 
+  // Functions to Field Placeholders
+    setPlaceholder = (fieldName) => {
+      switch(fieldName) {
+        case 'name':
+          return "Nome do beneficiário";
+        case 'cpf':
+          return "CPF do beneficiário";
+        case 'email':
+          return "E-mail do beneficiário";
+        case 'weight':
+          return "Peso do beneficiário em kg";
+        case 'height':
+          return "Altura do beneficiário em cm";
+        case 'address':
+          return "Endereço do beneficiário";
+        case 'meditation_hours':
+          return "Total de horas";
+      }
+    }
 
   // Function to render the dropdown list field to choose the Client that is the employer 
   renderClientsField = (clients) => {
@@ -97,7 +124,7 @@ class EmployeesNew extends Component {
           id="client-choose"
           validate={this.required}
         >
-
+          <option value='' disabled>Escolha uma opção</option>
           { clients.map( c => {
             return (
               <option value={c.client.id} key={c.client.id}>{c.client.name}</option>
@@ -147,6 +174,7 @@ class EmployeesNew extends Component {
                 component={this.renderField}
                 validate={this.renderValidations(JSON.parse(info).name)}
                 format={this.renderFormattings(JSON.parse(info).name)}
+                placeholder={this.setPlaceholder(JSON.parse(info).name)}
               />
             </div>
           )
@@ -155,7 +183,7 @@ class EmployeesNew extends Component {
     }
   }
 
-  // Final Render function
+  // -------------------- Final Render function ----------------------------
   render() {
     const {clientIdValue, chosenPartners, clients, partners} = this.props;
     return (
@@ -178,8 +206,9 @@ class EmployeesNew extends Component {
     );
   }
 }
+// ---------------------------------------------------------------------------
 
-// Wiring to Redux Store and Container
+// ------------------- Wiring to Redux Store and Container ------------------- 
 
 // Set selector to get values that users input
 const selector = formValueSelector('newEmployeeForm');
