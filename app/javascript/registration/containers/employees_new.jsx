@@ -5,6 +5,7 @@ import { reduxForm, Field, formValueSelector, SubmissionError } from 'redux-form
 import { createEmployee } from '../actions/index';
 import { ReduxCheckbox, Checkboxes } from 'react-form-checkbox';
 import { fetchClients } from '../actions/index';
+import { isCPF } from 'brazilian-values';
 
 class EmployeesNew extends Component {
 
@@ -47,7 +48,8 @@ class EmployeesNew extends Component {
   string = value => typeof(value) === 'string' ? undefined : 'Esse campo só aceita texto';
   integer = value => /^[0-9]+$/.test(value) ? undefined : 'Informe um valor numérico sem casas decimais';
   decimal = value => /^[0-9]+\.[0-9]$/.test(value) ? undefined : 'Informe um valor numérico com até uma casa decimal no formato XX.X';
-  cpfValidator = value => /^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/.test(value) ? undefined : 'Informe o CPF com 11 dígitos';
+  cpfFormValidator = value => /^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/.test(value) ? undefined : 'Informe o CPF com 11 dígitos';
+  cpfExistance = value => isCPF(value) ? undefined : 'CPF inválido';
   emailFormat = value => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? undefined : 'Formato de e-mail inválido';
   maxHeight = value => value < 300 ? undefined : 'Verifique o valor inserido';
   
@@ -58,7 +60,7 @@ class EmployeesNew extends Component {
         validators.push(this.string);
         return validators;
       case 'cpf':
-        validators.push(this.cpfValidator);
+        validators.push(this.cpfFormValidator, this.cpfExistance);
         return validators;
       case 'admission_date':
         return validators;
