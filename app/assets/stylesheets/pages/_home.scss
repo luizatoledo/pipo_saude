@@ -1,1 +1,34 @@
 // Specific CSS for your home-page
+body {
+  a {
+    text-decoration: none;
+    color: $body-color;
+  &:hover{
+    text-decoration: none;
+    color: $body-color;
+  }
+  }
+  h3, h5{
+    font-family: 'Poppins', sans-serif;
+  }
+}
+.btn-pipo {
+  color: white;
+  padding: 8px 24px;
+  border-radius: 5px;
+  font-weight: lighter;
+  font-family: 'Poppins', sans-serif;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+  background-color: #E93753;
+}
+
+.btn-pipo:hover {
+  opacity: 1;
+  color: white;
+}
+
+.white-card-shadow {
+  border-radius: 3px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
