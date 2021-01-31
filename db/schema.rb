@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_24_215226) do
+ActiveRecord::Schema.define(version: 2021_01_31_232208) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "benefits", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "clients", force: :cascade do |t|
     t.string "name"
@@ -45,6 +51,16 @@ ActiveRecord::Schema.define(version: 2021_01_24_215226) do
     t.index ["client_id"], name: "index_employees_on_client_id"
   end
 
+  create_table "offers", force: :cascade do |t|
+    t.string "name"
+    t.bigint "benefit_id", null: false
+    t.bigint "partner_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["benefit_id"], name: "index_offers_on_benefit_id"
+    t.index ["partner_id"], name: "index_offers_on_partner_id"
+  end
+
   create_table "partners", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
@@ -55,4 +71,6 @@ ActiveRecord::Schema.define(version: 2021_01_24_215226) do
   add_foreign_key "contracts", "clients"
   add_foreign_key "contracts", "partners"
   add_foreign_key "employees", "clients"
+  add_foreign_key "offers", "benefits"
+  add_foreign_key "offers", "partners"
 end
