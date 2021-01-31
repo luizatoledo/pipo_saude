@@ -12,11 +12,9 @@ class EmployeesIndex extends Component {
   renderEmployees = () => {
     return this.props.employees.map((employee, i) => {
       return (
-        <Link to={`/employees/${employee.id}`} key={employee.id}>
-          <div className="employee-item white-card-shadow">
-            <p className="p-1">{`${i+1}. ${employee.name}`}</p>
-          </div>
-        </Link>
+        <div className="employee-item white-card-shadow" key={i}>
+          <p className="p-1">{`${i+1}. ${employee.name}`}</p>
+        </div>
       );
     });
   }
