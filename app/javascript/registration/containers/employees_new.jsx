@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { reduxForm, Field, formValueSelector } from 'redux-form';
+import { reduxForm, Field, formValueSelector, SubmissionError } from 'redux-form';
 import { createEmployee } from '../actions/index';
 import { ReduxCheckbox, Checkboxes } from 'react-form-checkbox';
 import { fetchClients } from '../actions/index';
@@ -49,8 +49,8 @@ class EmployeesNew extends Component {
   decimal = value => /^[0-9]+\.[0-9]$/.test(value) ? undefined : 'Informe um valor numérico com até uma casa decimal no formato XX.X';
   cpfValidator = value => /^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/.test(value) ? undefined : 'Informe o CPF com 11 dígitos';
   emailFormat = value => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? undefined : 'Formato de e-mail inválido';
-  maxHeight = value => value < 300 ? undefined : 'Verifique o valor inserido'
-   
+  maxHeight = value => value < 300 ? undefined : 'Verifique o valor inserido';
+  
   renderValidations = (fieldName) => {
     const validators = [this.required];
     switch(fieldName) {
@@ -122,7 +122,6 @@ class EmployeesNew extends Component {
           type="select"
           component='select'
           id="client-choose"
-          validate={this.required}
         >
           <option value='' disabled>Escolha uma opção</option>
           { clients.map( c => {
@@ -145,7 +144,8 @@ class EmployeesNew extends Component {
           data={chosenClient.client_partners.map(p => p.name)} 
           name="partners"
           validate={this.required}
-        />
+        >
+        </Field>
       );
     }
   }
@@ -185,7 +185,7 @@ class EmployeesNew extends Component {
 
   // -------------------- Final Render function ----------------------------
   render() {
-    const {clientIdValue, chosenPartners, clients, partners} = this.props;
+    const {clientIdValue, chosenPartners, clients} = this.props;
     return (
       <div>
         <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
@@ -213,7 +213,7 @@ class EmployeesNew extends Component {
 // Set selector to get values that users input
 const selector = formValueSelector('newEmployeeForm');
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
     clients: state.clients,
     clientIdValue: selector(state, 'client_id'),
