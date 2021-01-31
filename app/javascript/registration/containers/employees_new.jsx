@@ -150,7 +150,7 @@ class EmployeesNew extends Component {
       return (
         <div>
           <h5>Dados dos Benefícios</h5>
-          <div className="ml-2">
+          <div className="ml-2 partner-options-labels">
             <Field 
               component={ReduxCheckbox(Checkboxes)}
               data={chosenClient.client_partners.map(p => p.name)} 
@@ -184,7 +184,7 @@ class EmployeesNew extends Component {
             <div className="ml-2">
               {infos.map( (info, index) => {
                 return (
-                  <div className={`form-input-${JSON.parse(info).name}`} key={index}>
+                  <div className={`form-input-personal ${JSON.parse(info).name}`} key={index}>
                     <Field
                       label={JSON.parse(info).label}
                       name={JSON.parse(info).name}

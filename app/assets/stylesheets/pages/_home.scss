@@ -32,3 +32,17 @@ body {
   border-radius: 3px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
+
+.partner-options-labels{
+  div{
+    display: flex;
+    justify-content: space-around;
+  }
+}
+
+.form-input-personal {
+  span{
+    color:#E93753;
+    font-family: 'Poppins', sans-serif;
+  }
+}
