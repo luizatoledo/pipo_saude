@@ -13,9 +13,8 @@ class EmployeesIndex extends Component {
     return this.props.employees.map((employee, i) => {
       return (
         <Link to={`/employees/${employee.id}`} key={employee.id}>
-          <div className="employee-item py-3">
-            <h3>{`${i+1}.${employee.name}`}</h3>
-            <p>{employee.client_id}</p>
+          <div className="employee-item white-card-shadow">
+            <p className="p-1">{`${i+1}. ${employee.name}`}</p>
           </div>
         </Link>
       );
@@ -31,10 +30,12 @@ class EmployeesIndex extends Component {
             Registrar Novo Beneficário
           </Link>
         </header>
+        <div className="employees-index-container my-3 pl-2">
         <div className="title-employees-index">
-          <h3 className="pt-4">Lista de Beneficiários</h3>
+          <h3 className="pt-1">Lista de Beneficiários</h3>
         </div>
         {this.renderEmployees()}
+        </div>
       </div>
     );
   }

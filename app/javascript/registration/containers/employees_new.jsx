@@ -148,17 +148,22 @@ class EmployeesNew extends Component {
     const chosenClient = clients.find( c => c.client.id === parseInt(clientId,10));
     if (clientId) {
       return (
-        <Field 
-          component={ReduxCheckbox(Checkboxes)}
-          data={chosenClient.client_partners.map(p => p.name)} 
-          name="partners"
-          validate={this.required}
-        >
-        </Field>
+        <div>
+          <h5>Dados dos Benefícios</h5>
+          <div className="ml-2">
+            <Field 
+              component={ReduxCheckbox(Checkboxes)}
+              data={chosenClient.client_partners.map(p => p.name)} 
+              name="partners"
+              validate={this.required}
+            >
+            </Field>
+          </div>
+        </div>
       );
     }
   }
-  
+
   // Function to render fields related to personal data from employees
   renderPersonalFields = (chosenPartners, clients, clientId) => {  
     if (chosenPartners && clientId) {
@@ -173,21 +178,28 @@ class EmployeesNew extends Component {
         const dataPrint = data.reduce((acc, curr) => acc.concat(curr) );
         // Remove repeated values of data needed
         const infos = dataPrint.filter( (v,i,a) => a.indexOf(v) === i);
-        return infos.map( (info, index) => {
-          return (
-            <div className={`form-input-${JSON.parse(info).name}`} key={index}>
-              <Field
-                label={JSON.parse(info).label}
-                name={JSON.parse(info).name}
-                type={JSON.parse(info).type}
-                component={this.renderField}
-                validate={this.renderValidations(JSON.parse(info).name)}
-                normalize={this.renderFormattings(JSON.parse(info).name)}
-                placeholder={this.setPlaceholder(JSON.parse(info).name)}
-              />
+        return ( 
+          <div>
+            <h5>Dados do Beneficário</h5>
+            <div className="ml-2">
+              {infos.map( (info, index) => {
+                return (
+                  <div className={`form-input-${JSON.parse(info).name}`} key={index}>
+                    <Field
+                      label={JSON.parse(info).label}
+                      name={JSON.parse(info).name}
+                      type={JSON.parse(info).type}
+                      component={this.renderField}
+                      validate={this.renderValidations(JSON.parse(info).name)}
+                      normalize={this.renderFormattings(JSON.parse(info).name)}
+                      placeholder={this.setPlaceholder(JSON.parse(info).name)}
+                    />
+                  </div>
+                )
+              })}
             </div>
-          )
-        });
+          </div>
+        )
       }
     }
   }
@@ -196,21 +208,32 @@ class EmployeesNew extends Component {
   render() {
     const {clientIdValue, chosenPartners, clients} = this.props;
     return (
-      <div>
-        <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
-          <div className="form-input-client">
-            { this.renderClientsField(clients) }
-          </div>
-          <div className="form-input-partners">
-            { this.renderPartnersField(clientIdValue, clients)}
-          </div>
-          <div className="form-inputs-personal-info">
-            { this.renderPersonalFields(chosenPartners, clients,clientIdValue) }
-          </div>
-          <button className="btn btn-primary" type="submit" disabled={this.props.pristine || this.props.submitting}>
-            Registrar Beneficiário
-          </button>
-        </form>
+      <div className="m-3">
+        <header className="d-flex">
+          <img src="https://global-uploads.webflow.com/5ee0d13e1d0466f2353dcb99/5ee0d892c8ef9b571403b382_logo.svg" alt="pipo-saude-logo"/>
+          <h3 className="ml-5">Formulário para Inclusão de Beneficiário </h3>
+        </header>
+        <div className="employees-new-form my-2 white-card-shadow p-3">
+          <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
+            <div className="form-input-client">
+              <h5>Dados do Empregador</h5>
+              <div className="ml-2">
+                { this.renderClientsField(clients) }
+              </div>
+            </div>
+            <div className="form-input-partners mt-3">
+              { this.renderPartnersField(clientIdValue, clients)}
+            </div>
+            <div className="form-inputs-personal-info mt-3">
+              { this.renderPersonalFields(chosenPartners, clients, clientIdValue) }
+            </div>
+            <div className="send-form-button-container mt-2 d-flex justify-content-center">
+              <button className="btn btn-pipo" type="submit" disabled={this.props.pristine || this.props.submitting}>
+                Registrar Beneficiário
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     );
   }
