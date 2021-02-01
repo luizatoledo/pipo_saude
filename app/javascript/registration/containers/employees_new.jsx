@@ -154,7 +154,7 @@ class EmployeesNew extends Component {
           <div className="ml-2 partner-options-labels">
             <Field 
               component={ReduxCheckbox(Checkboxes)}
-              data={chosenClient.client_partners.map(p => p.name)} 
+              data={chosenClient.client_offers.map(p => p.name)} 
               name="partners"
               validate={this.required}
             >
@@ -169,7 +169,7 @@ class EmployeesNew extends Component {
   renderPersonalFields = (chosenPartners, clients, clientId) => {  
     if (chosenPartners && clientId) {
       // Array of instances of Partners that were displayed for the user, based on the client that the user choose before
-      const possiblePartners = clients.find( c => c.client.id === parseInt(clientId,10)).client_partners;
+      const possiblePartners = clients.find( c => c.client.id === parseInt(clientId,10)).client_offers;
       // Compare the choesen partners names to the options and return the full instances that were chosen
       const chosenPartnersInstances = chosenPartners.map( p => possiblePartners.find(pp => pp.name === p)).filter( a => a !== undefined);
       // Get the registration data needed from all the partners chosen
