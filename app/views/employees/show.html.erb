@@ -1,0 +1,21 @@
+<p>teste</p>
+
+<% @employee.client.contracts.each do |c| %>
+  <% c.partner.offers.to_a.each do |o| %>
+    <% employee_offers = [] %>
+    <% employee_offers <<  o %>
+    <h3>Ficha de inclusão <%= o.name %></h3>
+    <table>
+      <tr>
+        <% info =[] %>
+        <% employee_offers.each do |offer| %>
+          <% offer.registration_data.each do |data| %>
+            <th><%= JSON.parse(data).symbolize_keys[:label] %></th>
+            <%= @employee.class.instance_methods.grep(/^#{Regexp.quote(JSON.parse(data).symbolize_keys[:name])}$/) %>
+          <% end %>
+        <% end %>
+      </tr>
+    </table>
+  <% end %>
+<% end %>
+

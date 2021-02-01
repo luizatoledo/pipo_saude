@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 2021_01_31_252208) do
     t.string "cpf"
     t.date "admission_date"
     t.string "email"
-    t.string "adress"
+    t.string "address"
     t.float "weight"
     t.integer "height"
     t.float "meditation_hours"

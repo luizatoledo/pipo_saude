@@ -5,7 +5,7 @@ class CreateEmployees < ActiveRecord::Migration[6.0]
       t.string :cpf
       t.date :admission_date
       t.string :email
-      t.string :adress
+      t.string :address
       t.float :weight
       t.integer :height
       t.float :meditation_hours

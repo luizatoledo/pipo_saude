@@ -4,8 +4,7 @@ Rails.application.routes.draw do
 
   # Dealing with React Routes
   get "employees/new", to: 'pages#home'
-  get "employees/:id", to: 'pages#home'
-
+ 
   # API routing
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
@@ -13,4 +12,7 @@ Rails.application.routes.draw do
       resources :clients, only: [ :index ]
     end
   end
+
+  # Employees show
+  resources :employees, only: [:show ]
 end
