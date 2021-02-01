@@ -1,21 +1,35 @@
-<p>teste</p>
-
-<% @employee.client.contracts.each do |c| %>
-  <% c.partner.offers.to_a.each do |o| %>
-    <% employee_offers = [] %>
-    <% employee_offers <<  o %>
-    <h3>Ficha de inclusão <%= o.name %></h3>
-    <table>
-      <tr>
-        <% info =[] %>
-        <% employee_offers.each do |offer| %>
-          <% offer.registration_data.each do |data| %>
-            <th><%= JSON.parse(data).symbolize_keys[:label] %></th>
-            <%= @employee.class.instance_methods.grep(/^#{Regexp.quote(JSON.parse(data).symbolize_keys[:name])}$/) %>
-          <% end %>
-        <% end %>
-      </tr>
-    </table>
+<div class="container my-3">
+  <div class="title-employee-show d-flex flex-column align-items-center py-3">
+    <h2>Fichas geradas para <%= @employee.name %></h2>
+  </div>
+  <% @employee.client.contracts.each do |c| %>
+    <% c.partner.offers.to_a.each do |o| %>
+      <% employee_offers = [] %>
+      <% employee_offers <<  o %>
+      <h3 class="mt-3">Ficha de inclusão <%= o.name %></h3>
+      <div class='table-responsive-sm white-card-shadow'>
+        <table class='table'>
+          <thead class="thead-light">
+            <tr>
+              <% employee_offers.each do |offer| %>
+                <% offer.registration_data.each do |data| %>
+                  <th scope='col'><%= JSON.parse(data).symbolize_keys[:label] %></th>
+                <% end %>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <% employee_offers.each do |offer| %>
+                <% offer.registration_data.each do |data| %>
+                  <td><%= @employee.public_send(JSON.parse(data).symbolize_keys[:name]) %></td>
+                <% end %>
+              <% end %>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
   <% end %>
-<% end %>
+</div>
 
