@@ -15,32 +15,10 @@ Benefit.delete_all
 Partner.delete_all
 
 # Creating Partners on DB
-norte_europa = Partner.create!(name: 'Norte Europa',
-                               registration_data: [
-                                { "label": 'Nome', "name": 'name', "type": 'text'}.to_json,
-                                { "label": 'CPF', "name": 'cpf',  "type": 'text'}.to_json,
-                                { "label": 'Data de Admissão', "name": 'admission_date', "type": 'date'}.to_json,
-                                { "label": 'E-mail', "name": 'email',  "type": 'text'}.to_json
-                              ])
-pampulha = Partner.create!(name: 'Pampulha Intermédica',
-                           registration_data: [
-                            { "label": 'Nome', "name": 'name', "type": 'text'}.to_json,
-                            { "label": 'CPF', "name": 'cpf',  "type": 'text'}.to_json,
-                            { "label": 'Data de Admissão', "name": 'admission_date', "type": 'date'}.to_json,
-                            { "label": 'Endereço', "name": 'address',  "type": 'text'}.to_json
-                            ])
-dental = Partner.create!(name: 'Dental Sorriso',
-                         registration_data: [
-                          { "label": 'Nome', "name": 'name', "type": 'text'}.to_json,
-                          { "label": 'CPF', "name": 'cpf',  "type": 'text'}.to_json,
-                          { "label": 'Peso (kg)', "name": 'weight',  "type": 'number'}.to_json,
-                          { "label": 'Altura (cm)', "name": 'height',  "type": 'number'}.to_json
-                          ])
-mental = Partner.create!(name: 'Mente Sã, Corpo São',
-                         registration_data: [
-                          { "label": 'CPF', "name": 'cpf',  "type": 'text'}.to_json,
-                          { "label": 'Horas Meditadas nos Últimos 7 dias', "name": 'meditation_hours', "type": 'number'}.to_json
-                          ])
+norte_europa = Partner.create!(name: 'Norte Europa')
+pampulha = Partner.create!(name: 'Pampulha Intermédica')
+dental = Partner.create!(name: 'Dental Sorriso')                      
+mental = Partner.create!(name: 'Mente Sã, Corpo São')
 
 # Creating Clients on DB
 acme = Client.create!(name: 'Acme Co')
@@ -78,25 +56,43 @@ c5.client = bank
 c5.save!
 
 # Creating Offers conecting Partners and Benefits
-o1 = Offer.new
+o1 = Offer.new(registration_data: [
+                                    { "label": 'Nome', "name": 'name', "type": 'text'}.to_json,
+                                    { "label": 'CPF', "name": 'cpf',  "type": 'text'}.to_json,
+                                    { "label": 'Data de Admissão', "name": 'admission_date', "type": 'date'}.to_json,
+                                    { "label": 'E-mail', "name": 'email',  "type": 'text'}.to_json
+                                  ])
 o1.partner = norte_europa
 o1.benefit = saude
 o1.name = "#{o1.benefit.name} #{o1.partner.name}"
 o1.save!
 
-o2 = Offer.new
+o2 = Offer.new(registration_data: [
+                                    { "label": 'Nome', "name": 'name', "type": 'text'}.to_json,
+                                    { "label": 'CPF', "name": 'cpf',  "type": 'text'}.to_json,
+                                    { "label": 'Data de Admissão', "name": 'admission_date', "type": 'date'}.to_json,
+                                    { "label": 'Endereço', "name": 'address',  "type": 'text'}.to_json
+                                  ])
 o2.partner = pampulha
 o2.benefit = saude
 o2.name = "#{o2.benefit.name} #{o2.partner.name}"
 o2.save!
 
-o3 = Offer.new
+o3 = Offer.new(registration_data: [
+                                    { "label": 'Nome', "name": 'name', "type": 'text'}.to_json,
+                                    { "label": 'CPF', "name": 'cpf',  "type": 'text'}.to_json,
+                                    { "label": 'Peso (kg)', "name": 'weight',  "type": 'number'}.to_json,
+                                    { "label": 'Altura (cm)', "name": 'height',  "type": 'number'}.to_json
+                                  ])
 o3.partner = dental
 o3.benefit = odonto
 o3.name = "#{o3.benefit.name} #{o3.partner.name}"
 o3.save!
 
-o4 = Offer.new
+o4 = Offer.new(registration_data: [
+                                    { "label": 'CPF', "name": 'cpf',  "type": 'text'}.to_json,
+                                    { "label": 'Horas Meditadas nos Últimos 7 dias', "name": 'meditation_hours', "type": 'number'}.to_json
+                                  ])
 o4.partner = mental
 o4.benefit = saude_mental
 o4.name = "#{o4.benefit.name} #{o4.partner.name}"
