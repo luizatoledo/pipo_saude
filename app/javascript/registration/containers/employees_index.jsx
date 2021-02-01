@@ -26,7 +26,7 @@ class EmployeesIndex extends Component {
         <header className="d-flex justify-content-between">
           <img src="https://global-uploads.webflow.com/5ee0d13e1d0466f2353dcb99/5ee0d892c8ef9b571403b382_logo.svg" alt="pipo-saude-logo"/>
           <Link className="btn btn-pipo" to="/employees/new">
-            Registrar Novo Beneficário
+            Registrar Novo Beneficiário
           </Link>
         </header>
         <div className="employees-index-container my-3 pl-2">

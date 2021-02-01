@@ -181,7 +181,7 @@ class EmployeesNew extends Component {
         const infos = dataPrint.filter( (v,i,a) => a.indexOf(v) === i);
         return ( 
           <div>
-            <h5>Dados do Beneficário</h5>
+            <h5>Dados do Beneficiário</h5>
             <div className="ml-2">
               {infos.map( (info, index) => {
                 return (
