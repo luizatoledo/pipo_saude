@@ -6,7 +6,7 @@
     <% c.partner.offers.to_a.each do |o| %>
       <% employee_offers = [] %>
       <% employee_offers <<  o %>
-      <h3 class="mt-3">Ficha de inclusão <%= o.name %></h3>
+      <h3 class="mt-5">Ficha de inclusão <%= o.name %></h3>
       <div class='table-responsive-sm white-card-shadow'>
         <table class='table'>
           <thead class="thead-light">
@@ -31,5 +31,6 @@
       </div>
     <% end %>
   <% end %>
+  <a href="/">Voltar</a>
 </div>
 
