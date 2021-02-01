@@ -97,7 +97,3 @@ o4.partner = mental
 o4.benefit = saude_mental
 o4.name = "#{o4.benefit.name} #{o4.partner.name}"
 o4.save!
-
-
-
-
