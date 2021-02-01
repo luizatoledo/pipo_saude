@@ -13,7 +13,6 @@ import { reducer as formReducer } from 'redux-form';
 import employeesReducer from './reducers/employees_reducer';
 import clientsReducer from './reducers/clients_reducer';
 import EmployeesIndex from './containers/employees_index';
-import EmployeesShow from './containers/employees_show';
 import EmployeesNew from './containers/employees_new';
 
 // Declaring reducers that deal with each key of the Redux State
@@ -44,7 +43,6 @@ ReactDOM.render(
       <Switch>
         <Route path="/" exact component={EmployeesIndex} />
         <Route path="/employees/new" component={EmployeesNew} />
-        <Route path="/employees/:id" component={EmployeesShow} />
       </Switch>
     </Router>
   </Provider>,
