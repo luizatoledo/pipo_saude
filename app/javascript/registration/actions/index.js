@@ -1,6 +1,5 @@
 // export const of action types
 export const FETCH_EMPLOYEES = 'FETCH_EMPLOYEES';
-export const FETCH_EMPLOYEE = 'FETCH_EMPLOYEE';
 export const CREATE_EMPLOYEE = 'CREATE_EMPLOYEE';
 export const FETCH_CLIENTS = 'FETCH_CLIENTS';
 
@@ -10,15 +9,6 @@ export function fetchEmployees() {
 
   return {
     type: FETCH_EMPLOYEES,
-    payload: promise
-  };
-}
-
-export function fetchEmployee(id) {
-  const promise = fetch(`/api/v1/employees/${id}`).then(response => response.json());
-
-  return {
-    type: FETCH_EMPLOYEE,
     payload: promise
   };
 }
