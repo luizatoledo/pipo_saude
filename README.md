@@ -5,10 +5,8 @@ This project simulates a registration form for new employees that will benefit f
 
 [See Online](https://pipo-saude-luizatoledo.herokuapp.com/ "Pipo Saúde Project")
 
-## Screenshots and Videos
-![screenshot](screenshot.PNG)
-
-![laptop](gif_laptop_screen.gif)
+## Demo
+![laptop](demo.gif)
 
 ## Tech and Framework
 
