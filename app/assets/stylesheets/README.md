@@ -19,14 +19,12 @@ Ensure you have the following gems in your Rails `Gemfile`
 # Gemfile
 gem 'autoprefixer-rails'
 gem 'font-awesome-sass', '~> 5.6.1'
-gem 'simple_form'
 ```
 
 In your terminal, generate SimpleForm Bootstrap config.
 
 ```bash
 bundle install
-rails generate simple_form:install --bootstrap
 ```
 
 Then replace Rails' stylesheets by Le Wagon's stylesheets:
