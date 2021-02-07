@@ -98,7 +98,6 @@ Look at your main `application.scss` file to see how SCSS files are imported. Th
 @import "font-awesome";
 
 // Your CSS partials
-@import "components/index";
 @import "pages/index";
 ```
 
