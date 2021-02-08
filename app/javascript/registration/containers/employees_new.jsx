@@ -6,6 +6,7 @@ import { reduxForm, Field, formValueSelector, Fields } from 'redux-form';
 import { createEmployee } from '../actions/index';
 import { ReduxCheckbox, Checkboxes } from 'react-form-checkbox';
 import { fetchClients } from '../actions/index';
+import { selectOffers } from '../actions/index';
 import { isCPF } from 'brazilian-values';
 
 class EmployeesNew extends Component {
@@ -229,7 +230,7 @@ class EmployeesNew extends Component {
               { this.renderPersonalFields(chosenPartners, clients, clientIdValue) }
             </div>
             <div className="send-form-button-container mt-2 d-flex justify-content-center">
-              <button className="btn btn-pipo" type="submit" disabled={this.props.pristine || this.props.submitting}>
+              <button className="btn btn-pipo" type="submit" disabled={this.props.pristine || this.props.submitting} onClick={() => this.props.selectOffers(chosenPartners)}>
                 Registrar Beneficiário
               </button>
             </div>
@@ -250,13 +251,14 @@ const selector = formValueSelector('newEmployeeForm');
 function mapStateToProps(state) {
   return {
     clients: state.clients,
+    selectedOffers: state.selectedOffers,
     clientIdValue: selector(state, 'client_id'),
     chosenPartners: selector(state, 'partners'),
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators( ( { fetchClients, createEmployee } ) , dispatch);
+  return bindActionCreators( ( { fetchClients, createEmployee, selectOffers } ) , dispatch);
 }
 
 EmployeesNew = connect(mapStateToProps, mapDispatchToProps)(EmployeesNew);
