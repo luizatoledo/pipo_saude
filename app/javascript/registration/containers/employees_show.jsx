@@ -10,12 +10,63 @@ class EmployeesShow extends Component {
     this.props.fetchEmployee(this.props.match.params.id);
   }
 
+  renderHeadings = (infos) => {
+    return(
+      infos.map( (i,index) => {
+        return(
+          <th scope='col' key={index}>{JSON.parse(i).label}</th>
+        );
+      })
+    );
+  }
+
+  renderContent = (infos, employee) => {
+    return (
+      infos.map( (info,i) => {
+        return(
+          <td key={i}>{employee[JSON.parse(info).name]}</td>
+        );
+      })
+    );
+  }
+
+  renderTables = (offers, employee) => {
+    return(
+      <div>
+        {offers.map( (o) => {
+          return(
+            <div key={o.id}>
+              <h3 className="mt-5">Ficha de inclusão {o.name}</h3>
+              <div className='table-responsive-sm white-card-shadow'>
+                <table className='table'>
+                  <thead className="thead-light">
+                    <tr>
+                      {this.renderHeadings(o.registration_data)}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      {this.renderContent(o.registration_data, employee)}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
   render() {
+    const {employee} = this.props;
     return (
       <div className="container my-3">
         <div className="title-employee-show d-flex flex-column align-items-center py-3">
-          <h2>Fichas geradas para {this.props.employee.name}</h2>
+          <h2>Fichas geradas para {employee.attributes.name}</h2>
         </div>
+        { this.renderTables(employee.available_offers, employee.attributes)}
+        <Link to={`/`}>Voltar</Link>
       </div>
     );
   }
@@ -24,7 +75,7 @@ class EmployeesShow extends Component {
 function mapStateToProps(state, ownProps) {
   return {
     employee: state.employees.find((e) => {
-      return e.id === parseInt(ownProps.match.params.id)
+      return e.attributes.id === parseInt(ownProps.match.params.id)
     })
   };
 }

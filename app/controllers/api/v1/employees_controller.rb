@@ -3,12 +3,24 @@ class Api::V1::EmployeesController < ActionController::Base
 
   def index
     @employees = Employee.all
-    render json: @employees
+    employees_with_offers = @employees.map do |e|
+      {attributes: e, 
+      available_offers: e.client.contracts.map do |c|
+        c.partner.offers
+      end.flatten
+      }
+    end
+    render json: employees_with_offers
   end
 
   def show
     @employee = Employee.find(params[:id])
-    render json: @employee
+    contracts = @employee.client.contracts
+    offers = contracts.map do |c|
+      c.partner.offers
+    end
+    info = { attributes: @employee, available_offers: offers.flatten}
+    render json: info
   end
 
   def create

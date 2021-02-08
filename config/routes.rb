@@ -13,7 +13,4 @@ Rails.application.routes.draw do
       resources :clients, only: [ :index ]
     end
   end
-
-  # Employees show
-  # resources :employees, only: [:show ]
 end
