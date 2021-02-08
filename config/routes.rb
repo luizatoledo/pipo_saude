@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   # API routing
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      resources :employees, only: [ :index, :show, :create ]
+      resources :employees, only: [ :index, :create ]
       resources :clients, only: [ :index ]
     end
   end

@@ -3,13 +3,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { selectOffers } from '../actions/index';
-import { fetchEmployee } from '../actions/index';
 
 class EmployeesShow extends Component {
-  componentDidMount() {
-    this.props.fetchEmployee(this.props.match.params.id);
-  }
-
   renderHeadings = (infos) => {
     return(
       infos.map( (i,index) => {
@@ -81,7 +76,7 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchEmployee, selectOffers }, dispatch);
+  return bindActionCreators({ selectOffers }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmployeesShow);

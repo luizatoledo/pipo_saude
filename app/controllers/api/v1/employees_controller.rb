@@ -13,16 +13,6 @@ class Api::V1::EmployeesController < ActionController::Base
     render json: employees_with_offers
   end
 
-  def show
-    @employee = Employee.find(params[:id])
-    contracts = @employee.client.contracts
-    offers = contracts.map do |c|
-      c.partner.offers
-    end
-    info = { attributes: @employee, available_offers: offers.flatten}
-    render json: info
-  end
-
   def create
     @employee = Employee.new(employee_params)
     @employee.save
