@@ -26,9 +26,13 @@ class EmployeesShow extends Component {
   }
 
   renderTables = (offers, employee) => {
+    const selectedOffers = employee.selected_offers.split(",");
+    const selectedOffersInstances = selectedOffers.map((off) => {
+      return(offers.map(offer => offer.name === off ? offer : null ).filter(e => e));
+    }).flat();
     return(
       <div>
-        {offers.map( (o) => {
+        {selectedOffersInstances.map( (o) => {
           return(
             <div key={o.id}>
               <h3 className="mt-5">Ficha de inclusão {o.name}</h3>

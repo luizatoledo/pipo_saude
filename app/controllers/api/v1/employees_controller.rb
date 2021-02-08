@@ -22,6 +22,6 @@ class Api::V1::EmployeesController < ActionController::Base
   private
 
   def employee_params
-    params.require(:employee).permit(:name, :cpf, :admission_date, :email, :address, :weight, :height, :meditation_hours, :client_id)
+    params.require(:employee).permit(:name, :cpf, :admission_date, :email, :address, :weight, :height, :meditation_hours, :client_id, :selected_offers)
   end
 end
