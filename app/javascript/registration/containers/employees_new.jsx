@@ -29,7 +29,7 @@ class EmployeesNew extends Component {
 
   changeSelectedOffers = (values) => {
     this.props.selectOffers(values);
-    this.props.change('selected_offers', values.join());  
+    this.props.change('selected_offers', values.join("/+/"));  
   }
   // ----------------------------------------------------------------------  
 

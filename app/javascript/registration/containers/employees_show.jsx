@@ -26,7 +26,7 @@ class EmployeesShow extends Component {
   }
 
   renderTables = (offers, employee) => {
-    const selectedOffers = employee.selected_offers.split(",");
+    const selectedOffers = employee.selected_offers.split("/+/");
     const selectedOffersInstances = selectedOffers.map((off) => {
       return(offers.map(offer => offer.name === off ? offer : null ).filter(e => e));
     }).flat();

@@ -13,7 +13,7 @@ class EmployeesIndex extends Component {
     return this.props.employees.map((e, i) => {
       return (
         <div className="employee-item white-card-shadow d-flex my-2" key={i}>
-          <p className="p-1">{`${i+1}. ${e.attributes.name}`}</p>
+          <p className="p-1">{`${i+1}. ${e.attributes.name ? e.attributes.name : 'Sem registro de nome'}`}</p>
           <p className="p-1"><a href={`/employees/${e.attributes.id}`} className='link-to-tables'>Ver tabelas</a></p>
         </div>
       );
