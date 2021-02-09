@@ -21,11 +21,13 @@ class EmployeesNew extends Component {
 
   // -------------- Rendering of Back-End Validation Errors ----------------
 
-  renderDatabaseErrors = (fieldName, message) => {
-    throw new SubmissionError({
-      [fieldName]: message,
-      _error: 'Cadastro não realizado'
-    })
+  renderDatabaseErrors = (errors) => {    
+    const messages = {};
+    Object.keys(errors).forEach( k => {
+      messages[k] = errors[k][0];
+    });
+    messages['_error'] = 'Cadastro não realizado';
+    throw new SubmissionError(messages);
   }
   // -----------------------------------------------------------------------
 
@@ -34,9 +36,7 @@ class EmployeesNew extends Component {
   onSubmit = (value) => {
     return this.props.createEmployee(value, (employee) => {
       if (employee.errors) {
-        Object.keys(employee.errors).forEach( k => {
-          this.renderDatabaseErrors(k, employee.errors[k][0]);
-        });
+        this.renderDatabaseErrors(employee.errors);
       }
       else {
         this.props.history.push('/');
