@@ -8,6 +8,7 @@ import { ReduxCheckbox, Checkboxes } from 'react-form-checkbox';
 import { fetchClients } from '../actions/index';
 import { selectOffers } from '../actions/index';
 import { isCPF } from 'brazilian-values';
+import { SubmissionError } from 'redux-form'
 
 class EmployeesNew extends Component {
 
@@ -16,14 +17,30 @@ class EmployeesNew extends Component {
     // Initially fill Redux State with clients array
     this.props.fetchClients();
   }
-  // ----------------------------------------------------------------------  
+  // ----------------------------------------------------------------------
+
+  // -------------- Rendering of Back-End Validation Errors ----------------
+
+  renderDatabaseErrors = (fieldName, message) => {
+    throw new SubmissionError({
+      [fieldName]: message,
+      _error: 'Cadastro não realizado'
+    })
+  }
+  // -----------------------------------------------------------------------
 
   //  -------------------- Event Handling of Inputs -----------------------
   // Redirect to home page after form submission
   onSubmit = (value) => {
-    this.props.createEmployee(value, (employee) => {
-      this.props.history.push('/');
-      return employee;
+    return this.props.createEmployee(value, (employee) => {
+      if (employee.errors) {
+        Object.keys(employee.errors).forEach( k => {
+          this.renderDatabaseErrors(k, employee.errors[k][0]);
+        });
+      }
+      else {
+        this.props.history.push('/');
+      }
     });
   }
 
@@ -61,7 +78,8 @@ class EmployeesNew extends Component {
   maxHeight = value => value < 300 ? undefined : 'Verifique o valor inserido';
   maxLength = max => value => value.length <= max ? undefined : `Tamanho máximo é de ${max} caracteres`
   nameFromatValidator = value => /^[a-zA-Z\sà-úÀ-ÚçÇêÊ]+$/i.test(value) ? undefined : 'Apenas letras são aceitas no nome'
-  
+  maxMeditation = value => value <= 168 ? undefined : 'Informe um valor menor que o total de horas nos últimos 7 dias';
+
   renderValidations = (fieldName) => {
     const validators = [this.required];
     switch(fieldName) {
@@ -85,6 +103,7 @@ class EmployeesNew extends Component {
       case 'address':
         return validators;
       case 'meditation_hours':
+        validators.push(this.maxMeditation);
         return validators;
     }
   }
