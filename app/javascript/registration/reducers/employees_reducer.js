@@ -1,4 +1,4 @@
-import { FETCH_EMPLOYEES} from '../actions';
+import { FETCH_EMPLOYEES } from '../actions';
 
 export default function employeesReducer(state = [], action) {
   switch (action.type) {

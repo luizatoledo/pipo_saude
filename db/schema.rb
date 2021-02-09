@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 2021_01_31_252208) do
     t.float "weight"
     t.integer "height"
     t.float "meditation_hours"
+    t.string "selected_offers"
     t.bigint "client_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

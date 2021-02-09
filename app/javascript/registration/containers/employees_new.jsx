@@ -6,6 +6,7 @@ import { reduxForm, Field, formValueSelector, Fields } from 'redux-form';
 import { createEmployee } from '../actions/index';
 import { ReduxCheckbox, Checkboxes } from 'react-form-checkbox';
 import { fetchClients } from '../actions/index';
+import { selectOffers } from '../actions/index';
 import { isCPF } from 'brazilian-values';
 
 class EmployeesNew extends Component {
@@ -24,6 +25,11 @@ class EmployeesNew extends Component {
       this.props.history.push('/');
       return employee;
     });
+  }
+
+  changeSelectedOffers = (values) => {
+    this.props.selectOffers(values);
+    this.props.change('selected_offers', values.join("/+/"));  
   }
   // ----------------------------------------------------------------------  
 
@@ -155,11 +161,25 @@ class EmployeesNew extends Component {
             <Field 
               component={ReduxCheckbox(Checkboxes)}
               data={chosenClient.client_offers.map(p => p.name)} 
-              name="partners"
+              name="available_offers"
               validate={this.required}
             >
             </Field>
           </div>
+        </div>
+      );
+    }
+  }
+
+  setSelectedOffers = (chosenPartners) => {
+    if(chosenPartners) {
+      return(
+        <div className="d-none">
+          <Field
+            name="selected_offers"
+            component='input'
+            type='text'
+          ></Field>
         </div>
       );
     }
@@ -224,12 +244,13 @@ class EmployeesNew extends Component {
             </div>
             <div className="form-input-partners mt-3">
               { this.renderPartnersField(clientIdValue, clients)}
+              { this.setSelectedOffers(chosenPartners) }
             </div>
             <div className="form-inputs-personal-info mt-3">
               { this.renderPersonalFields(chosenPartners, clients, clientIdValue) }
             </div>
             <div className="send-form-button-container mt-2 d-flex justify-content-center">
-              <button className="btn btn-pipo" type="submit" disabled={this.props.pristine || this.props.submitting}>
+              <button className="btn btn-pipo" type="submit" disabled={this.props.pristine || this.props.submitting} onClick={() => this.changeSelectedOffers(chosenPartners)}>
                 Registrar Beneficiário
               </button>
             </div>
@@ -250,13 +271,14 @@ const selector = formValueSelector('newEmployeeForm');
 function mapStateToProps(state) {
   return {
     clients: state.clients,
+    selectedOffers: state.selectedOffers,
     clientIdValue: selector(state, 'client_id'),
-    chosenPartners: selector(state, 'partners'),
+    chosenPartners: selector(state, 'available_offers'),
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators( ( { fetchClients, createEmployee } ) , dispatch);
+  return bindActionCreators( ( { fetchClients, createEmployee, selectOffers } ) , dispatch);
 }
 
 EmployeesNew = connect(mapStateToProps, mapDispatchToProps)(EmployeesNew);

@@ -2,6 +2,7 @@
 export const FETCH_EMPLOYEES = 'FETCH_EMPLOYEES';
 export const CREATE_EMPLOYEE = 'CREATE_EMPLOYEE';
 export const FETCH_CLIENTS = 'FETCH_CLIENTS';
+export const SELECTED_OFFERS = 'SELECTED_OFFERS';
 
 // Actions that use Employee API
 export function fetchEmployees() {
@@ -38,4 +39,12 @@ export function fetchClients() {
     type: FETCH_CLIENTS,
     payload: promise
   }
+}
+
+// Action that sends to Redux Store the selected offers for the new employee
+export function selectOffers(offers) {
+  return {
+    type: SELECTED_OFFERS,
+    payload: offers ? offers : []
+  };
 }

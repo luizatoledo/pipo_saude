@@ -3,12 +3,14 @@ class Api::V1::EmployeesController < ActionController::Base
 
   def index
     @employees = Employee.all
-    render json: @employees
-  end
-
-  def show
-    @employee = Employee.find(params[:id])
-    render json: @employee
+    employees_with_offers = @employees.map do |e|
+      {attributes: e, 
+      available_offers: e.client.contracts.map do |c|
+        c.partner.offers
+      end.flatten
+      }
+    end
+    render json: employees_with_offers
   end
 
   def create
@@ -20,6 +22,6 @@ class Api::V1::EmployeesController < ActionController::Base
   private
 
   def employee_params
-    params.require(:employee).permit(:name, :cpf, :admission_date, :email, :address, :weight, :height, :meditation_hours, :client_id)
+    params.require(:employee).permit(:name, :cpf, :admission_date, :email, :address, :weight, :height, :meditation_hours, :client_id, :selected_offers)
   end
 end

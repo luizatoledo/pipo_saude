@@ -9,6 +9,7 @@ class CreateEmployees < ActiveRecord::Migration[6.0]
       t.float :weight
       t.integer :height
       t.float :meditation_hours
+      t.string :selected_offers
       t.references :client, null: false, foreign_key: true
 
       t.timestamps
