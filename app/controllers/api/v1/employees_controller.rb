@@ -15,8 +15,14 @@ class Api::V1::EmployeesController < ActionController::Base
 
   def create
     @employee = Employee.new(employee_params)
-    @employee.save
-    render json: @employee
+    respond_to do |format|
+      if @employee.save
+        format.json { render json: @employee }
+      else
+        format.html { redirect_to root_path }
+        format.json { render json: {errors: @employee.errors}, status: :unprocessable_entity }
+      end
+    end
   end
 
   private

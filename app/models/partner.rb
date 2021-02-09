@@ -4,4 +4,5 @@ class Partner < ApplicationRecord
   has_many :employees, through: :clients, dependent: :destroy
   has_many :offers, dependent: :destroy
   has_many :benefits, through: :ofers, dependent: :destroy
+  validates :name, presence: true
 end
