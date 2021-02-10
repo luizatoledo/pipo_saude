@@ -74,7 +74,7 @@ class EmployeesNew extends Component {
   decimal = value => /^[0-9]+\.?[0-9]?$/.test(value) && value > 0 ? undefined : 'Informe um valor numérico positivo com até uma casa decimal no formato XX.X';
   cpfFormValidator = value => /^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/.test(value) ? undefined : 'Informe o CPF com 11 dígitos';
   cpfExistence = value => isCPF(value) ? undefined : 'CPF inválido';
-  emailFormat = value => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}(\.?[A-Z]{2,4})?$/i.test(value) ? undefined : 'Formato de e-mail inválido';
+  emailFormat = value => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}(\.[A-Z]{2,4})?$/i.test(value) ? undefined : 'Formato de e-mail inválido';
   maxHeight = value => value < 300 ? undefined : 'Verifique o valor inserido';
   maxLength = max => value => value.length <= max ? undefined : `Tamanho máximo é de ${max} caracteres`
   nameFromatValidator = value => /^[a-zA-Z\sà-úÀ-ÚçÇêÊ]+$/i.test(value) ? undefined : 'Apenas letras são aceitas no nome'
