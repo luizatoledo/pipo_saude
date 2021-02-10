@@ -8,7 +8,6 @@ class EmployeeTest < ActiveSupport::TestCase
     assert !employee.save, 'Saved employee with name containing special characters'
   end
   
-  
   test "should not save employee without CPF" do
     client = Client.create(name:'test client')
     employee = Employee.new(name:'test employee', email:'test@email.com')
