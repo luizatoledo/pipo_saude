@@ -1,30 +1,35 @@
-import React from 'react';
-import { configure, shallow } from 'enzyme';
+import React from "react";
+import { screen, render } from "@testing-library/react";
+import { createStore } from "redux";
+import { EmployeesIndex } from '../employees_index';
+import { Provider } from 'react-redux';
+import {configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 configure({adapter : new Adapter( )});
 
-import configureStore from 'redux-mock-store';
-import { Provider } from 'react-redux';
-const mockStore = configureStore();
+describe('Employees Index Connected Component Test', () => {
+  it('renders header and doesnt render list without one', () => {
+    const props = {
+      fetchEmployees: jest.fn(),
+      employees: []
+    }
 
-import EmployeesIndex from '../employees_index';
+    const wrapper = shallow(<EmployeesIndex {...props}/>);
 
-describe('Employees Index Container Test', () => {
-
-  it('should render a placeholder', () => {
-    const wrapper = shallow(
-      <Provider store={mockStore({employees:[]})}>
-        <EmployeesIndex />
-      </Provider>
-      );
-    expect(wrapper.find('.btn-pipo').exists()).toBe(true);
-    // expect(wrapper.find('.employee-item').exists()).toBe(false);
+    expect(wrapper.find('h3').text()).toEqual("Lista de Beneficiários");
+    expect(wrapper.exists('.employee-item')).toEqual(false);
   });
 
-  // it('should render actual employee information', () => {
-  //   const wrapper = shallow(<EmployeesIndex employees=[]);
-  //   expect(wrapper.find('.dog-placeholder').exists()).toBe(false);
-  //   expect(wrapper.find('img[src="http://somedogurl.dog"]').exists()).toBe(true);
-  // });
+  it('renders list when provided one', () => {
+    const props = {
+      fetchEmployees: jest.fn(),
+      employees: [{attributes:{id:1, name: 'test employee', cpf: '980.315.070-74'}, selected_offers:["offer 1", "offer 2"]}]
+    }
+
+    const wrapper = shallow(<EmployeesIndex {...props}/>);
+    
+    expect(wrapper.exists('.employee-item')).toEqual(true);
+    expect(wrapper.find('.employee-item-name').text()).toEqual(`1. ${props.employees[0].attributes.name}`);
+  });
 
 });
