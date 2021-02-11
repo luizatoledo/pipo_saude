@@ -34,7 +34,6 @@ export function createEmployee(info, callback) {
 // Actions that use Clients API
 export function fetchClients() {
   const promise = fetch('/api/v1/clients').then(response => response.json());
-
   return {
     type: FETCH_CLIENTS,
     payload: promise
