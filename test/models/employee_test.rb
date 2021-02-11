@@ -3,7 +3,7 @@ require 'test_helper'
 class EmployeeTest < ActiveSupport::TestCase
   test "should not save employee with name containing special characters" do
     client = Client.create(name:'test client')
-    employee = Employee.new(name:'00!*', email:'test@email.com', cpf:'404.086.460-39')
+    employee = Employee.new(name:'00!*Teste_ Simbolos', email:'test@email.com', cpf:'404.086.460-39')
     employee.client = client
     assert !employee.save, 'Saved employee with name containing special characters'
   end
