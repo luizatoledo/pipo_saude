@@ -1,8 +1,5 @@
 import React from "react";
-import { screen, render } from "@testing-library/react";
-import { createStore } from "redux";
 import { EmployeesIndex } from '../employees_index';
-import { Provider } from 'react-redux';
 import {configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 configure({adapter : new Adapter( )});

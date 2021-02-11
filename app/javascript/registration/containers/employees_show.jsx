@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { selectOffers } from '../actions/index';
 
-class EmployeesShow extends Component {
+export class EmployeesShow extends Component {
   renderHeadings = (infos) => {
     return(
       infos.map( (i,index) => {
