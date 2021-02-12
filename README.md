@@ -137,24 +137,22 @@ run yarn jest // for React testing
 ## API V1 Documentation
 ### Employees
 #### Get all Employees
-GET request
-url: /api/v1/employees
-returns an array with all the current Employees registered in database
-Each object in the array has 2 keys:
-* attributes, an object with all the employee's registered attributes
-* available_offers, an array of Offers' instances that can be chosen by that employee
+* GET request
+* url: /api/v1/employees
+* returns an array with all the current Employees registered in database. Each object in the array has 2 keys:
+  * attributes, an object with all the employee's registered attributes
+  * available_offers, an array of Offers' instances that can be chosen by that employee
 #### Create an Employee
-POST request
-url: /api/v1/employees
-body has to be an object in which the keys are employee's attributes
+* POST request
+* url: /api/v1/employees
+* body has to be an object in which the keys are employee's attributes
 ### Clients
 #### Get all Clients
-GET request
-url: /api/v1/clients
-returns an array with all the current Clients registered in database
-Each object in the array has 2 keys:
-* client, an object with all the client's registered attributes
-* client_offers, an array of Offers' instances that can provide for the employees
+* GET request
+* url: /api/v1/clients
+* returns an array with all the current Clients registered in database. Each object in the array has 2 keys:
+  * client, an object with all the client's registered attributes
+  * client_offers, an array of Offers' instances that can provide for the employees
 
 ## Credits
 Rails app generated with [lewagon/rails-templates](https://github.com/lewagon/rails-templates), created by the [Le Wagon coding bootcamp](https://www.lewagon.com) team.
