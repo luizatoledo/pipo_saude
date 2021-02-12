@@ -64,7 +64,7 @@ Since Rails 6 has webpacker configured in it, the use of front end javascrip fra
 Here is a simple guide to the most important files and folders to understand the written logic of the code:
 
 | File/Folder     | Purpose                                                                      |
-| -------------   |:----------------------------------------------------------------------------:|
+| -------------   |----------------------------------------------------------------------------  |
 | app/assets      | Contains the assets used in the application (images, SCSS stylesheets)       |
 | app/controllers | Contains the logic of the Controllers for Rails' MVC structure               |
 | app/javascript  | Contains all the React.js logic (the registration folder has all the actions,|
