@@ -78,8 +78,6 @@ Here is a simple guide to the most important files and folders to understand the
 | config/         | Contains configuration for the application. The only written logic is in the |
 |                 | routes.rb file                                                               |
 | db/             | Contains the current database schema, as well as the database migrations     |
-| Gemfile and     | Files that specify what gem dependencies are needed for the application      |
-| Gemfile.lock    |                                                                              |
 | test/           | All Rails related tests                                                      |
 
 Gemfile, Gemfile.lock and package.json are the folders that specifies Ruby Gem's and NPM libraries dependencies for the full application.
