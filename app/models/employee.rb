@@ -9,5 +9,5 @@ class Employee < ApplicationRecord
   validates :email, uniqueness: { message: "Esse e-mail já existe"}
   validates :height, numericality: { only_integer: true, greater_than: 0, message: "Informe um valor numérico positivo sem casas decimais" }, allow_blank: true
   validates :weight, numericality: { greater_than: 0, less_than: 300, message: "Verifique o valor inserido" }, allow_blank: true
-  validates :meditation_hours, numericality: { :greater_than_or_equal_to: 0, less_than_or_equal_to: 168, message: "Informe um valor menor que o total de horas nos últimos 7 dias"}, allow_blank: true
+  validates :meditation_hours, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 168, message: "Informe um valor menor que o total de horas nos últimos 7 dias"}, allow_blank: true
 end
