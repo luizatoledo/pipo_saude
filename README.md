@@ -75,7 +75,6 @@ Here is a simple guide to the most important files and folders to understand the
 |                 | but since React.js is being used, it only has the meta information of <head> |
 |                 | in the application.html.erb file and the rendering of the React App in       |
 |                 | home.html.erb                                                                |
-|                 | of the application. It is the main folder with the code's logic              |
 | config/         | Contains configuration for the application. The only written logic is in the |
 |                 | routes.rb file                                                               |
 | db/             | Contains the current database schema, as well as the database migrations     |
