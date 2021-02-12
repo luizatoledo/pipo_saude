@@ -129,9 +129,10 @@ webpack-dev-server
 Go to localhost:3000 in browser
 
 ### 4. Testing
-
-run rake test for Rails testing
-run yarn jest for React testing
+```
+rake test // for Rails testing
+run yarn jest // for React testing
+```
 
 ## API V1 Documentation
 ### Employees
